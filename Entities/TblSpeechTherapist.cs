@@ -12,7 +12,7 @@ namespace Entities
         {
             TblPatients = new HashSet<TblPatient>();
         }
-
+                         
         public int Id { get; set; }
         public int UserId { get; set; }
         public byte[] Prospectus { get; set; }
