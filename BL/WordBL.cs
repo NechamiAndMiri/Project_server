@@ -17,9 +17,19 @@ namespace BL
             this.wordDL = wordDL;
         }
 
+        public async Task<IEnumerable<TblDifficultyLevel>> GetAllLevels(int problemsTypeId)
+        {
+            return await wordDL.GetAllLevels(problemsTypeId);
+        }
+
         public async Task<IEnumerable<TblPronunciationProblemsType>> GetAllPronunciationProblemsTypes()
         {
             return await wordDL.GetAllPronunciationProblemsTypes();
+        }
+
+        public Task PostLevel(int pronunciationProblemId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

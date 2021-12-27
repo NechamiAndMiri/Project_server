@@ -40,11 +40,11 @@ namespace Project_server.Controllers
         }
         /// screens:
         /// 1. SpeechTherapist -> exercise -> PronunciationProblemsType
-        [HttpGet("/problemsTypeId")]
-        public IEnumerable<TblDifficultyLevel> GetAllLevels([FromBody] int problemsTypeId)
+        [HttpGet("{problemsTypeId}/PronunciationProblemLevels")]
+        public async Task<IEnumerable<TblDifficultyLevel>> GetAllLevels(int problemsTypeId)
         {
             // return all the level of this Pronunciation Problem
-            return null;
+            return await wordBL.GetAllLevels(problemsTypeId);
         }
         /// screens:
         /// 1. SpeechTherapist -> exercise -> PronunciationProblemsType -> Difficultylevel
@@ -59,16 +59,17 @@ namespace Project_server.Controllers
         // POST api/<WordController>
         /// screens:
         /// 1. SpeechTherapist -> addLevel
-        [HttpPost("{levelName}")]
-        public void Post([FromBody] TblPronunciationProblemsType problem, int levelName)
+        [HttpPost("{pronunciationProblemId/addLevel}")]
+        public async Task PostLevel(int pronunciationProblemId )
         {
             //add new level to this problem
+             await wordBL.PostLevel(pronunciationProblemId);
         }
 
         /// screens:
         /// 1. SpeechTherapist -> Level -> addWord
         [HttpPost("{word}")]
-        public void Post([FromBody] TblDifficultyLevel level, string word)
+        public void PostWord([FromBody] TblDifficultyLevel level, string word)
         {
             //add new word to this level
         }

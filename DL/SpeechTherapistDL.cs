@@ -51,10 +51,12 @@ namespace DL
         public async Task PutSpeechTherapist(int id,TblSpeechTherapist tblspeechTherapist)
         {
             TblSpeechTherapist speechTherapist = await generalDBContext.TblSpeechTherapists.FindAsync(id);
+            TblUser user = await generalDBContext.TblUsers.FindAsync(speechTherapist.UserId);//לברר למה זה לא עבד בלי לטפל בנפרד בטבלת משתמש
             if (speechTherapist == null)
             {
                 return;
             }
+            generalDBContext.Entry(user).CurrentValues.SetValues(tblspeechTherapist.User);//כנ"ל
             generalDBContext.Entry(speechTherapist).CurrentValues.SetValues(tblspeechTherapist);
             await generalDBContext.SaveChangesAsync();
         }
