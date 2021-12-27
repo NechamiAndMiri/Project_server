@@ -14,7 +14,7 @@ namespace Entities
         }
 
         public int Id { get; set; }
-        public int PermissionLevel { get; set; }
+        public string PermissionLevel { get; set; }
         [JsonIgnore]
         public virtual ICollection<TblUser> TblUsers { get; set; }
     }

@@ -1,8 +1,7 @@
 ﻿using System;
+using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Entities;
-using System.Collections.Generic;
 
 #nullable disable
 
@@ -31,7 +30,6 @@ namespace DL
         public virtual DbSet<TblWord> TblWords { get; set; }
         public virtual DbSet<TblWordsGivenToPractice> TblWordsGivenToPractices { get; set; }
         public virtual DbSet<TblWordsPerExercise> TblWordsPerExercises { get; set; }
-        public IEnumerable<object> TblSpeechTherapist { get; internal set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -56,11 +54,19 @@ namespace DL
 
                 entity.Property(e => e.PronunciationProblemId).HasColumnName("pronunciation_problem_ID");
 
+                entity.Property(e => e.SpeechTherapistId).HasColumnName("speech_therapist_ID");
+
                 entity.HasOne(d => d.PronunciationProblem)
                     .WithMany(p => p.TblDifficultyLevels)
                     .HasForeignKey(d => d.PronunciationProblemId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tbl_Difficulty_levels_tbl_Pronunciation_problems_types");
+
+                entity.HasOne(d => d.SpeechTherapist)
+                    .WithMany(p => p.TblDifficultyLevels)
+                    .HasForeignKey(d => d.SpeechTherapistId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_tbl_Difficulty_levels_tbl_Speech_therapists1");
             });
 
             modelBuilder.Entity<TblExercise>(entity =>
@@ -97,9 +103,13 @@ namespace DL
 
                 entity.Property(e => e.IsChecked).HasColumnName("is_checked");
 
+                entity.Property(e => e.IsDone).HasColumnName("is_done");
+
                 entity.Property(e => e.LessonDescription).HasColumnName("lesson_description");
 
                 entity.Property(e => e.PatientId).HasColumnName("patient_ID");
+
+                entity.Property(e => e.WeightedScore).HasColumnName("weighted_score");
 
                 entity.HasOne(d => d.DifficultyLevel)
                     .WithMany(p => p.TblLessons)
@@ -124,7 +134,7 @@ namespace DL
                     .HasColumnType("datetime")
                     .HasColumnName("date_of_writing");
 
-                entity.Property(e => e.IsAnswered).HasColumnName("is_answered");
+                entity.Property(e => e.IsAnswer).HasColumnName("is_answer");
 
                 entity.Property(e => e.IsRead).HasColumnName("is_read");
 
@@ -151,9 +161,17 @@ namespace DL
                     .HasColumnType("date")
                     .HasColumnName("date_of_birth");
 
+                entity.Property(e => e.PronunciationProblemId).HasColumnName("pronunciation_problem_ID");
+
                 entity.Property(e => e.SpeechTherapistId).HasColumnName("speech_therapist_ID");
 
                 entity.Property(e => e.UserId).HasColumnName("user_ID");
+
+                entity.HasOne(d => d.PronunciationProblem)
+                    .WithMany(p => p.TblPatients)
+                    .HasForeignKey(d => d.PronunciationProblemId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_tbl_Patients_tbl_Pronunciation_problems_types");
 
                 entity.HasOne(d => d.SpeechTherapist)
                     .WithMany(p => p.TblPatients)
@@ -174,7 +192,10 @@ namespace DL
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.PermissionLevel).HasColumnName("permission_level");
+                entity.Property(e => e.PermissionLevel)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .HasColumnName("permission_level");
             });
 
             modelBuilder.Entity<TblPronunciationProblemsType>(entity =>
@@ -200,13 +221,9 @@ namespace DL
                     .HasMaxLength(50)
                     .HasColumnName("address");
 
-                entity.Property(e => e.Logo)
-                    .HasColumnType("image")
-                    .HasColumnName("logo");
+                entity.Property(e => e.Logo).HasColumnName("logo");
 
-                entity.Property(e => e.Prospectus)
-                    .HasColumnType("image")
-                    .HasColumnName("prospectus");
+                entity.Property(e => e.Prospectus).HasColumnName("prospectus");
 
                 entity.Property(e => e.UserId).HasColumnName("user_ID");
 
@@ -249,6 +266,11 @@ namespace DL
                     .HasColumnName("password");
 
                 entity.Property(e => e.PermissionLevelId).HasColumnName("permission_level_ID");
+
+                entity.Property(e => e.Phone)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("phone");
 
                 entity.HasOne(d => d.PermissionLevel)
                     .WithMany(p => p.TblUsers)

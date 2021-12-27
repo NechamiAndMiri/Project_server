@@ -58,10 +58,12 @@ namespace DL
         public async Task PutPatient(int id, TblPatient tblPatient)
         {
             TblPatient patient = await generalDBContext.TblPatients.FindAsync(id);
+            TblUser user= await generalDBContext.TblUsers.FindAsync(patient.UserId);//לברר למה זה לא עבד בלי לטפל בנפרד בטבלת משתמש
             if (patient==null)
             {
                 return;
             }
+            generalDBContext.Entry(user).CurrentValues.SetValues(tblPatient.User);//כנ"ל
             generalDBContext.Entry(patient).CurrentValues.SetValues(tblPatient);
             await generalDBContext.SaveChangesAsync();
 

@@ -19,6 +19,8 @@ namespace Entities
         public bool IsChecked { get; set; }
         public int DifficultyLevelId { get; set; }
         public string LessonDescription { get; set; }
+        public int? WeightedScore { get; set; }
+        public bool IsDone { get; set; }
         [JsonIgnore]
         public virtual TblDifficultyLevel DifficultyLevel { get; set; }
         [JsonIgnore]

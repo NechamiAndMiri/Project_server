@@ -21,13 +21,12 @@ namespace Entities
         public string Email { get; set; }
         public int PermissionLevelId { get; set; }
         public string Password { get; set; }
+        public string Phone { get; set; }
         [JsonIgnore]
         public virtual TblPermissionLevel PermissionLevel { get; set; }
         [JsonIgnore]
         public virtual ICollection<TblPatient> TblPatients { get; set; }
         [JsonIgnore]
         public virtual ICollection<TblSpeechTherapist> TblSpeechTherapists { get; set; }
-
-       
     }
 }
