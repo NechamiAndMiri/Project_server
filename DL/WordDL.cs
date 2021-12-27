@@ -10,7 +10,7 @@ namespace DL
     public class WordDL : IWordDL
     {
         GeneralDBContext generalDBContext;
-        public WordDL()
+        public WordDL()     
         {
             generalDBContext = new GeneralDBContext();
         }
