@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,11 @@ namespace DL
         public Task<IEnumerable<TblPronunciationProblemsType>> GetAllPronunciationProblemsTypes()
         {
             return null;// await generalDBContext.TblMessages.Where(m => m.Patient.SpeechTherapistId == speechTherapistID).ToListAsync();
+        }
+
+        public async Task<IEnumerable<TblWord>> GetAllWords(int levelId)
+        {
+            return await generalDBContext.TblWords.Where(w=>w.DifficultyLevelId==levelId).ToListAsync();
         }
     }
 }

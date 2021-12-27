@@ -7,5 +7,6 @@ namespace DL
     public interface IWordDL
     {
         Task<IEnumerable<TblPronunciationProblemsType>> GetAllPronunciationProblemsTypes();
+        Task<IEnumerable<TblWord>> GetAllWords(int levelId);
     }
 }

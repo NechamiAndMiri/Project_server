@@ -21,5 +21,10 @@ namespace BL
         {
             return await wordDL.GetAllPronunciationProblemsTypes();
         }
+
+        public async Task<IEnumerable<TblWord>> GetAllWords(int levelId)
+        {
+            return await wordDL.GetAllWords(levelId);
+        }
     }
 }

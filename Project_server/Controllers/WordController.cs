@@ -48,11 +48,11 @@ namespace Project_server.Controllers
         }
         /// screens:
         /// 1. SpeechTherapist -> exercise -> PronunciationProblemsType -> Difficultylevel
-        [HttpGet("{levelId}")]
-        public IEnumerable<TblWord> Get(int levelId)
+        [HttpGet("{levelId}/LevelWords")]
+        public async Task<IEnumerable<TblWord>> Get(int levelId)
         {
             // return all the words of this level;
-            return null;
+            return await wordBL.GetAllWords(levelId);
         }
 
 

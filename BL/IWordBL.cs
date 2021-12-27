@@ -7,5 +7,6 @@ namespace BL
     public interface IWordBL
     {
         Task<IEnumerable<TblPronunciationProblemsType>> GetAllPronunciationProblemsTypes();
+        Task<IEnumerable<TblWord>> GetAllWords(int levelId);
     }
 }
