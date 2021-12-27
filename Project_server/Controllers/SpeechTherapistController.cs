@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BL;
 using Entities;
+using DTO;
 
 /// <summary>
 /// using the tables:
@@ -28,34 +29,38 @@ namespace Project_server.Controllers
 
 
         // GET: api/<SpeechTherapistController>
-        [HttpGet("{param}/{searchType}")]
+        [HttpGet]
         /// screens:
         /// 1. admin
          // בשביל מסך המנהל- מקבל פרמטר של סוג הסינון, ומחזיר רשימה של כל הקלינאיות המותאמות לתנאי 
-        public IEnumerable<TblSpeechTherapist> Get(string param = null, int searchType = 0)
+        public async Task<IEnumerable<SpeechTherapistDTO>> Get()
         {
             //return TblSpeechTherapist list
-            return null;
+            return await speechTherapistBL.GetaAllSpeechTherapists();
         }
 
 
+
+        //////////////לבדוק אם צריך את זה- לשים לב זה מחזיר רק את החלק של הקלינאית ולא את כל המשתמש////////
+        
         // GET api/<SpeechTherapistController>/5 
         /// screens:
         /// 1. SpeechTherapist
-        [HttpGet("{id}")]
-        public string Get(string id)
+        [HttpGet("{userId}")]
+        public async Task<TblSpeechTherapist> Get(int userId)
         {
             // return the current SpeechTherapist
-            return null;
+            return await speechTherapistBL.GetSingleSpeechTherapist(userId);
         }
+       //////////////////////////////////////////////////////////////////////////////////////////// 
 
         // POST api/<SpeechTherapistController>
         /// screens:
         /// 1. admin
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task Post([FromBody] TblSpeechTherapist speechTherapist)
         {
-            // add new SpeechTherapist
+           await speechTherapistBL.PostSpeechTherapist(speechTherapist);
         }
 
         // PUT api/<SpeechTherapistController>/5
@@ -63,16 +68,18 @@ namespace Project_server.Controllers
         /// 1. admin
         /// 2. SpeechTherapist
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task Put(int id, [FromBody] TblSpeechTherapist tblspeechTherapist)
         {
+            await speechTherapistBL.PutSpeechTherapist(id,tblspeechTherapist);
         }
 
         // DELETE api/<SpeechTherapistController>/5
         /// screens:
         /// 1. admin
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
+          await speechTherapistBL.DeleteSpeechTherapist(id);
         }
     }
 }

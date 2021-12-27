@@ -1,4 +1,5 @@
 ﻿using DL;
+using Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,11 @@ namespace BL
         public WordBL(IWordDL wordDL)
         {
             this.wordDL = wordDL;
+        }
+
+        public async Task<IEnumerable<TblPronunciationProblemsType>> GetAllPronunciationProblemsTypes()
+        {
+            return await wordDL.GetAllPronunciationProblemsTypes();
         }
     }
 }

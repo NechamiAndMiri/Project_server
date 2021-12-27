@@ -27,5 +27,7 @@ namespace Entities
         public virtual ICollection<TblPatient> TblPatients { get; set; }
         [JsonIgnore]
         public virtual ICollection<TblSpeechTherapist> TblSpeechTherapists { get; set; }
+
+       
     }
 }

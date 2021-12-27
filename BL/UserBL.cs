@@ -17,9 +17,11 @@ namespace BL
             this.userDL = userDL;
         }
 
-        public TblUser getUser(string userName, string password)
+        public async Task<TblUser> getUser(string firstName, string lastName, string password)
         {
-           return userDL.getUser(userName, password);
+           return await userDL.getUser(firstName, lastName, password);
         }
+
+       
     }
 }

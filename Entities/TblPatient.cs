@@ -18,9 +18,9 @@ namespace Entities
         public int UserId { get; set; }
         public int SpeechTherapistId { get; set; }
         public DateTime DateOfBirth { get; set; }
-        
-        public virtual TblSpeechTherapist SpeechTherapist { get; set; }
         [JsonIgnore]
+        public virtual TblSpeechTherapist SpeechTherapist { get; set; }
+       
         public virtual TblUser User { get; set; }
         [JsonIgnore]
         public virtual ICollection<TblLesson> TblLessons { get; set; }

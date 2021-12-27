@@ -18,7 +18,7 @@ namespace Entities
         public byte[] Prospectus { get; set; }
         public byte[] Logo { get; set; }
         public string Address { get; set; }
-        [JsonIgnore]
+        
         public virtual TblUser User { get; set; }
         [JsonIgnore]
         public virtual ICollection<TblPatient> TblPatients { get; set; }

@@ -28,31 +28,32 @@ namespace Project_server.Controllers
         }
         //להלן פונקציות הGET
 
-        //// GET: api/<WordController>
-        ///// screens:
-        ///// 1. SpeechTherapist -> exercise
-        //[HttpGet]
-        //public IEnumerable<TblPronunciationProblemsType> Get()
-        //{
-        //    // return all the PronunciationProblemsTypes;
-        //    return null;
-        //}
-        ///// screens:
-        ///// 1. SpeechTherapist -> exercise -> PronunciationProblemsType
-        //[HttpGet]
-        //public IEnumerable<TblDifficultyLevel> Get([FromBody] TblPronunciationProblemsType problemsType)
-        //{
-        //    // return all the level of this Pronunciation Problem
-        //    return null;
-        //}
-        ///// screens:
-        ///// 1. SpeechTherapist -> exercise -> PronunciationProblemsType -> Difficultylevel
-        //[HttpGet]
-        //public IEnumerable<TblWord> Get([FromBody] TblDifficultyLevel level)
-        //{
-        //    // return all the words of this level;
-        //    return null;
-        //}
+        // GET: api/<WordController>
+        /// screens:
+        /// 1. SpeechTherapist -> exercise
+        [HttpGet]
+        public async Task<IEnumerable<TblPronunciationProblemsType>> Get()
+        {
+            // return all the PronunciationProblemsTypes;
+            return await wordBL.GetAllPronunciationProblemsTypes();
+            
+        }
+        /// screens:
+        /// 1. SpeechTherapist -> exercise -> PronunciationProblemsType
+        [HttpGet("/problemsTypeId")]
+        public IEnumerable<TblDifficultyLevel> GetAllLevels([FromBody] int problemsTypeId)
+        {
+            // return all the level of this Pronunciation Problem
+            return null;
+        }
+        /// screens:
+        /// 1. SpeechTherapist -> exercise -> PronunciationProblemsType -> Difficultylevel
+        [HttpGet("{levelId}")]
+        public IEnumerable<TblWord> Get(int levelId)
+        {
+            // return all the words of this level;
+            return null;
+        }
 
 
         // POST api/<WordController>

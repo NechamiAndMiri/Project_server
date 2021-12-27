@@ -1,9 +1,12 @@
 ﻿using Entities;
+using System.Threading.Tasks;
 
 namespace BL
 {
     public interface IUserBL
     {
-        TblUser getUser(string userName, string password);
+        Task<TblUser> getUser(string firstName, string lastName, string password);
+       
+        
     }
 }

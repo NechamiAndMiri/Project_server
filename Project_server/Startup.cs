@@ -19,9 +19,11 @@ namespace Project_server
 {
     public class Startup
     {
+       
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+           
         }
 
         public IConfiguration Configuration { get; }
@@ -29,6 +31,10 @@ namespace Project_server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+           
+            services.AddAutoMapper(typeof(Startup));
+            services.AddControllersWithViews();
+
             services.AddScoped<IExerciseDL, ExerciseDL>();
             services.AddScoped<ILessonDL, LessonDL>();
             services.AddScoped<IMessageDL, MessageDL>();
@@ -43,9 +49,9 @@ namespace Project_server
             services.AddScoped<IPatientBL, PatientBL>();
             services.AddScoped<ISpeechTherapistBL, SpeechTherapistBL>();
             services.AddScoped<IUserBL, UserBL>();
-            services.AddScoped<IWordBL, WordBL>();
           
-            services.AddDbContext<GeneralDBContext>(options => options.UseSqlServer("Server=srv2\\pupils;Database=GeneralDB;Trusted_Connection=True;"), ServiceLifetime.Scoped);
+            services.AddScoped<IWordBL, WordBL>();
+            services.AddDbContext<GeneralDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionString_miri")), ServiceLifetime.Scoped);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -55,8 +61,9 @@ namespace Project_server
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
+            logger.LogInformation("server up!");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

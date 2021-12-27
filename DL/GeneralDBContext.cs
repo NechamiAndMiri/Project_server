@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Entities;
+using System.Collections.Generic;
 
 #nullable disable
 
@@ -30,6 +31,7 @@ namespace DL
         public virtual DbSet<TblWord> TblWords { get; set; }
         public virtual DbSet<TblWordsGivenToPractice> TblWordsGivenToPractices { get; set; }
         public virtual DbSet<TblWordsPerExercise> TblWordsPerExercises { get; set; }
+        public IEnumerable<object> TblSpeechTherapist { get; internal set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
