@@ -10,8 +10,11 @@ namespace DL
 {
     public class MessageDL : IMessageDL
     {
-        GeneralDBContext generalDBContext = new GeneralDBContext();
-
+        GeneralDBContext generalDBContext;
+        public MessageDL(GeneralDBContext generalDBContext)
+        {
+            this.generalDBContext = generalDBContext;
+        }
       
 
         async public Task<List<TblMessage>> getMesssage(int speechTherapistID)

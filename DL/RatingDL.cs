@@ -10,9 +10,9 @@ namespace DL
     public class RatingDL: IRatingDL
     {
         GeneralDBContext generalDBContext;
-        public RatingDL()
+        public RatingDL(GeneralDBContext generalDBContext)
         {
-            generalDBContext = new GeneralDBContext();
+            this.generalDBContext =generalDBContext;
         }
 
        

@@ -13,7 +13,8 @@ using AutoMapper;
 ///     1. tbl_Exercises
 ///     2.  tbl_Words_per_exercise
 /// </summary>
-
+[Route("api/[controller]")]
+[ApiController]
 public class ExerciseController : ControllerBase
 {
     IMapper mapper;

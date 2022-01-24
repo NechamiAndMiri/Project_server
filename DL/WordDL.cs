@@ -11,9 +11,9 @@ namespace DL
     public class WordDL : IWordDL
     {
         GeneralDBContext generalDBContext;
-        public WordDL()     
+        public WordDL(GeneralDBContext generalDBContext)     
         {
-            generalDBContext = new GeneralDBContext();
+           this.generalDBContext= generalDBContext ;
         }
 
         public async Task<List<TblDifficultyLevel>> GetAllLevels(int problemsTypeId)

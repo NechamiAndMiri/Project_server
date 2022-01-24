@@ -13,10 +13,10 @@ namespace DL
     {
         GeneralDBContext generalDBContext;
         IUserDL userDL;
-        public SpeechTherapistDL(IUserDL userDL)
+        public SpeechTherapistDL(IUserDL userDL, GeneralDBContext generalDBContext)
         {
             this.userDL = userDL;
-            generalDBContext = new GeneralDBContext();
+            this.generalDBContext = generalDBContext;
         }
 
 

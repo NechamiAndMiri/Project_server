@@ -103,8 +103,7 @@ namespace Project_server
 
 
             app.Map("/api",a=> {
-                try
-                {  
+                
                     a.UseRouting();
                     a.UseRatingMiddleware();
                   
@@ -113,12 +112,8 @@ namespace Project_server
                      {
                          endpoints.MapControllers();
                      });
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
+                
+               
                 
             });//.HasValue("API")
             app.UseAuthorization();

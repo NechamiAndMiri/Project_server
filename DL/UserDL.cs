@@ -11,7 +11,11 @@ namespace DL
 
     public class UserDL : IUserDL
     {
-        GeneralDBContext generalDBContext = new GeneralDBContext();
+        GeneralDBContext generalDBContext;
+        public UserDL(GeneralDBContext generalDBContext)
+        {
+            this.generalDBContext = generalDBContext;
+        }
 
         public async Task<TblUser> getUser(string firstName,string lastName, string password)
         {

@@ -14,10 +14,10 @@ namespace DL
 
         GeneralDBContext generalDBContext;
         IUserDL userDL;
-        public PatientDL( IUserDL userDL)
+        public PatientDL( IUserDL userDL, GeneralDBContext generalDBContext)
         {
             this.userDL = userDL;
-            generalDBContext = new GeneralDBContext();
+           this.generalDBContext= generalDBContext;
         }
 
         async public Task<List<PatientDTO>> GetPatient(int speechTherapistId)

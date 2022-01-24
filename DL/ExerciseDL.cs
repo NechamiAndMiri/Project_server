@@ -10,7 +10,11 @@ namespace DL
 {
     public class ExerciseDL : IExerciseDL
     {
-        GeneralDBContext generalDBContext = new GeneralDBContext();
+        GeneralDBContext generalDBContext; 
+        public ExerciseDL(GeneralDBContext generalDBContext)
+        {
+            this.generalDBContext = generalDBContext;
+        }
 
         public async Task<List<TblExercise>> GetExercises(int difficultylevelId)
         {

@@ -12,9 +12,9 @@ namespace DL
     public class LessonDL : ILessonDL
     {
         GeneralDBContext generalDBContext;
-        public LessonDL()
+        public LessonDL(GeneralDBContext generalDBContext)
         {
-            generalDBContext = new GeneralDBContext();
+            this.generalDBContext =generalDBContext;
         }
 
         public async Task<List<TblLesson>> GetAllLessons(int patientID)
