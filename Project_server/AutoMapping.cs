@@ -13,8 +13,28 @@ namespace Project_server
     {
         public AutoMapping()
         {
-          // CreateMap<TblUser, User>();
-           
+           CreateMap<TblMessage, MessageDTO>().ForMember(dest => dest.FirstName,
+                       opts => opts.MapFrom(src => src.Patient.User.FirstName))
+                       .ForMember(dest => dest.LastName,
+                       opts => opts.MapFrom(src => src.Patient.User.LastName))
+                       .ForMember(dest=>dest.Email,
+                        opts => opts.MapFrom(src => src.Patient.User.Email)).ReverseMap();
+          
+            CreateMap<TblWordsPerExercise, WordExerciseDTO>()
+                .ForMember(dest => dest.WordText,
+                opts => opts.MapFrom(src => src.Word.WordText))
+                .ForMember(dest => dest.WordRecording,
+                opts => opts.MapFrom(src => src.Word.WordRecording))
+                .ForMember(dest => dest.DifficultyLevelId,
+                opts => opts.MapFrom(src => src.Word.DifficultyLevelId)).ReverseMap();
+
+            //CreateMap<TblUser, PatientDTO>().ReverseMap();
+            //CreateMap<TblPatient, PatientDTO>().ReverseMap();
+
+            //CreateMap<TblUser, SpeechTherapistDTO>().ReverseMap();
+            //CreateMap<TblSpeechTherapist, SpeechTherapistDTO>().ReverseMap();
+
+
         }
     }
 }

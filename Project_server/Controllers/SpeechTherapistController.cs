@@ -33,7 +33,7 @@ namespace Project_server.Controllers
         /// screens:
         /// 1. admin
          // בשביל מסך המנהל- מקבל פרמטר של סוג הסינון, ומחזיר רשימה של כל הקלינאיות המותאמות לתנאי 
-        public async Task<IEnumerable<SpeechTherapistDTO>> Get()
+        public async Task<List<SpeechTherapistDTO>> Get()
         {
             //return TblSpeechTherapist list
             return await speechTherapistBL.GetaAllSpeechTherapists();

@@ -1,7 +1,7 @@
 ﻿using System;
-using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Entities;
 
 #nullable disable
 
@@ -18,6 +18,10 @@ namespace DL
         {
         }
 
+    
+
+        //add on declaration part
+        public virtual DbSet<Rating> Ratings { get; set; }
         public virtual DbSet<TblDifficultyLevel> TblDifficultyLevels { get; set; }
         public virtual DbSet<TblExercise> TblExercises { get; set; }
         public virtual DbSet<TblLesson> TblLessons { get; set; }
@@ -68,8 +72,39 @@ namespace DL
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tbl_Difficulty_levels_tbl_Speech_therapists1");
             });
+            modelBuilder.Entity<Rating>(entity =>
+            {
+                entity.ToTable("RATING");
 
-            modelBuilder.Entity<TblExercise>(entity =>
+                entity.Property(e => e.RatingId).HasColumnName("RATING_ID");
+
+                entity.Property(e => e.Host)
+                    .HasColumnName("HOST")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Method)
+                    .HasColumnName("METHOD")
+                    .HasMaxLength(10)
+                    .IsFixedLength();
+
+                entity.Property(e => e.Path)
+                    .HasColumnName("PATH")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.RecordDate)
+                 .HasColumnName("Record_Date")
+                 .HasColumnType("datetime");
+
+                entity.Property(e => e.Referer)
+                    .HasColumnName("REFERER")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.UserAgent).HasColumnName("USER_AGENT");
+            });
+
+        
+
+        modelBuilder.Entity<TblExercise>(entity =>
             {
                 entity.ToTable("tbl_Exercises");
 
@@ -297,6 +332,7 @@ namespace DL
                 entity.HasOne(d => d.DifficultyLevel)
                     .WithMany(p => p.TblWords)
                     .HasForeignKey(d => d.DifficultyLevelId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tbl_Words_tbl_Difficulty_levels");
             });
 
@@ -310,9 +346,7 @@ namespace DL
 
                 entity.Property(e => e.LessonId).HasColumnName("lesson_ID");
 
-                entity.Property(e => e.PatientRecording)
-                    .IsRequired()
-                    .HasColumnName("patient_recording");
+                entity.Property(e => e.PatientRecording).HasColumnName("patient_recording");
 
                 entity.Property(e => e.Score).HasColumnName("score");
 
@@ -335,9 +369,7 @@ namespace DL
             {
                 entity.ToTable("tbl_Words_per_exercise");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("ID");
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.ExerciseId).HasColumnName("exercise_ID");
 

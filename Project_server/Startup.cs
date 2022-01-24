@@ -14,9 +14,12 @@ using System.Threading.Tasks;
 using DL;
 using BL;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace Project_server
 {
+    //ginrut
+    //Scaffold-DbContext "Server=srv2\pupils;Database=GeneralDB;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
     public class Startup
     {
        
@@ -51,8 +54,10 @@ namespace Project_server
             services.AddScoped<IUserBL, UserBL>();
           
             services.AddScoped<IWordBL, WordBL>();
+            services.AddScoped<IRatingBL, RatingBL>();
+            services.AddScoped<IRatingDL, RatingDL>();
             services.AddDbContext<GeneralDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionString_miri")), ServiceLifetime.Scoped);
-
+            services.AddResponseCaching();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -64,9 +69,10 @@ namespace Project_server
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
             logger.LogInformation("server up!");
+            app.UseErrorMiddleware();
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+              //  app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Project_server v1"));
             }
@@ -75,6 +81,46 @@ namespace Project_server
 
             app.UseRouting();
 
+           
+
+        
+  
+            app.UseResponseCaching();
+
+            app.Use(async (context, next) =>
+            {
+                context.Response.GetTypedHeaders().CacheControl =
+                    new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+                    {
+                        Public = true,
+                        MaxAge = TimeSpan.FromSeconds(10)
+                    };
+                context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] =
+                    new string[] { "Accept-Encoding" };
+
+                await next();
+            });
+
+
+            app.Map("/api",a=> {
+                try
+                {  
+                    a.UseRouting();
+                    a.UseRatingMiddleware();
+                  
+                    a.UseAuthorization();
+                    a.UseEndpoints(endpoints =>
+                     {
+                         endpoints.MapControllers();
+                     });
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                
+            });//.HasValue("API")
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

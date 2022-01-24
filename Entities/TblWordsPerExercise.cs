@@ -1,5 +1,4 @@
-﻿using Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
@@ -12,8 +11,6 @@ namespace Entities
         public int Id { get; set; }
         public int WordId { get; set; }
         public int ExerciseId { get; set; }
-
-
         [JsonIgnore]
         public virtual TblExercise Exercise { get; set; }
         [JsonIgnore]

@@ -17,8 +17,7 @@ namespace Entities
         public int Id { get; set; }
         public string WordText { get; set; }
         public string WordRecording { get; set; }
-        public int? DifficultyLevelId { get; set; }
-
+        public int DifficultyLevelId { get; set; }
         [JsonIgnore]
         public virtual TblDifficultyLevel DifficultyLevel { get; set; }
         [JsonIgnore]

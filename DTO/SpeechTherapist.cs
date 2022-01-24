@@ -12,11 +12,6 @@ namespace DTO
     public class SpeechTherapistDTO:UserDTO
     {
         public TblSpeechTherapist SpeechTherapist { get; set; }
-        //new public int Id { get; set; }
-        //public int UserId { get; set; }
-        //public byte[] Prospectus { get; set; }
-        //public byte[] Logo { get; set; }
-        //public string Address { get; set; }
-
+     
     }
 }

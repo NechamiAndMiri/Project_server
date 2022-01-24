@@ -1,4 +1,5 @@
-﻿using BL;
+﻿
+using BL;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -29,66 +30,95 @@ namespace Project_server.Controllers
         /// 2. patient
         // GET: api/<LessonController>
         [HttpGet("{patientID}")]
-        public IEnumerable<TblLesson> Get(int patientID)
+        public async Task<List<TblLesson>> GetAllLessons(int patientID)
         {
             // get all lessons
-            return null;
+            return await lessonBL.GetAllLessons(patientID);
         }
 
         /// screens:
         /// 1. SpeechTherapist->patients->lessons->show
         /// 2.patient->lesson
         // GET: api/<LessonController>
-        [HttpGet("{lessonID}")]
-        public IEnumerable<TblWordsGivenToPractice> Get(int lessonID,bool n)
+        [HttpGet("{lessonID}/get_all_WORDS_FOR_lesson")]
+        public async Task<List<TblWordsGivenToPractice>> GetLessonWords(int lessonID)
         {
             // get all WORDS FOR lesson
-            return null;
+            return await lessonBL.GetLessonWords(lessonID);
         }
 
-        
+
         /// screens:
         /// 1. SpeechTherapist->patients->lessons->add
 
         // POST api/<LessonController>
         [HttpPost]
-        public void Post([FromBody] TblLesson lesson)
+        public async Task Post([FromBody] TblLesson tblLesson)
         {
             //add the lesson
+            await lessonBL.PostLesson(tblLesson);
         }
 
         /// screens:
         /// 1. SpeechTherapist->patients->lessons->addwords2lesson
 
         // POST api/<LessonController>
-        [HttpPost("{lessonID}/{wordID}")]
-        public void Post( int wordID,  int lessonID)
+        [HttpPost("/PostWordToLesson")]
+        public async Task Post([FromBody] TblWordsGivenToPractice WordGivenToPractice)
         {
             //add the word to the lesson
+            await lessonBL.PostWordToLesson(WordGivenToPractice);
+        }
+
+
+        // PUT api/<LessonController>/5
+        [HttpPut("/lesson")]
+        public async Task PutLesson([FromBody] TblLesson tblLesson)
+        {
+            await lessonBL.PutLesson(tblLesson);
+        }
+
+        // PUT api/<LessonController>/5
+        [HttpPut("/word")]
+        public async Task PutWordForLesson([FromBody] TblWordsGivenToPractice word)
+        {
+            await lessonBL.PutWordForLesson(word);
         }
 
         /// screens:
         /// 1. SpeechTherapist->patients->lessons->edit
         // PUT api/<LessonController>/5
-        [HttpPut("{id}")]
-        public void Put(int id)
+        [HttpPut("{lessonId}/edit_the_coulmn_isChecked")]
+        public async Task PutColIsCheckedAtLesson(int lessonId)
         {
             //edit the coulmn isChecked
+            await lessonBL.PutColIsCheckedAtLesson(lessonId);
+
         }
 
         /// screens:
         /// 1. SpeechTherapist->patients->lessons->editword
         // PUT api/<LessonController>/5
-        [HttpPut("{id}/{n}")]
-        public void Put(int id,bool n)
+        [HttpPut("{wordId}/edit_the_coulmn_isvalid")]
+        public async Task PutColIsValidAtWordToPractice(int wordId)
         {
             //edit the coulmn isvalid
+            await lessonBL.PutColIsValidAtWordToPractice(wordId);
         }
 
         // DELETE api/<LessonController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{lessonId}/DeleteLesson")]
+        public async Task DeleteLesson(int lessonId)
         {
+            await lessonBL.DeleteLesson(lessonId);
+        }
+
+        // DELETE api/<LessonController>/5
+        [HttpDelete("{wordId}/DeleteWordFromLesson")]
+        public async Task DeleteWordFromLesson(int wordId)
+        {
+            await lessonBL.DeleteWordFromLesson(wordId);
         }
     }
 }
+

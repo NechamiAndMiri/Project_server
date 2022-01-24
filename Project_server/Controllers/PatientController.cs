@@ -47,7 +47,7 @@ namespace Project_server.Controllers
         [HttpGet("{speechTherapistId}")]
         // בשביל מסך המנהל- מקבל פרמטר של סוג הסינון, ומחזיר רשימה של כל המטופלים המותאמות לתנאי 
 
-        public async Task<IEnumerable<PatientDTO>> Get(int speechTherapistId)
+        public async Task<List<PatientDTO>> Get(int speechTherapistId)
         {
             // return all patient list
 
@@ -59,7 +59,7 @@ namespace Project_server.Controllers
         /// screens:
         /// 1. SpeechTherapist -> patients
         //[HttpGet("{SpeechTherapistID}/{param}/{searchType}")]
-        //public IEnumerable<TblPatient> Get(int SpeechTherapistID, string param = null, int searchType = 0)//הפרמטרים הנוספים עבור הסינון
+        //public List<TblPatient> Get(int SpeechTherapistID, string param = null, int searchType = 0)//הפרמטרים הנוספים עבור הסינון
         //{
         //    // return all patient list for the SpeechTherapist
         //    return null;

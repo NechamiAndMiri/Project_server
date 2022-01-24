@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DTO;
+using AutoMapper;
 
 /// <summary>
 /// using the tables:
@@ -16,12 +18,13 @@ namespace Project_server.Controllers
     [ApiController]
     public class MessageController : ControllerBase
     {
-
+        IMapper mapper;
         IMessageBL messageBL;
 
-        public MessageController(IMessageBL messageBL)
+        public MessageController(IMessageBL messageBL, IMapper mapper)
         {
             this.messageBL = messageBL;
+            this.mapper = mapper;
         }
 
         /// screens:
@@ -29,11 +32,12 @@ namespace Project_server.Controllers
         // GET: api/<MessageController>
 
         [HttpGet("{SpeechTherapistID}")]
-         public async Task<IEnumerable<TblMessage>> Get(int SpeechTherapistID)
+         public async Task<List<MessageDTO>> Get(int SpeechTherapistID)
         {
-            //return all the msgs
-            return await messageBL.getMessage(SpeechTherapistID);
-
+          //return all the msgs
+            var messages= await messageBL.getMessage(SpeechTherapistID);
+            return mapper.Map<List<TblMessage>, List<MessageDTO>>(messages);
+           
 
         }
         /// screens:
@@ -41,9 +45,9 @@ namespace Project_server.Controllers
         /// 2.patient
         // POST api/<MessageController>
         [HttpPost]
-        public async Task Post([FromBody] TblMessage value)
+        public async Task Post([FromBody] TblMessage message)
         {
-             await messageBL.postMessage(value);
+            await messageBL.postMessage(message);//mapper.Map<MessageDTO, TblMessage>(message));
         }
         /// screens:
         /// 1. SpeechTherapist->msg

@@ -32,7 +32,7 @@ namespace Project_server.Controllers
         /// screens:
         /// 1. SpeechTherapist -> exercise
         [HttpGet]
-        public async Task<IEnumerable<TblPronunciationProblemsType>> Get()
+        public async Task<List<TblPronunciationProblemsType>> Get()
         {
             // return all the PronunciationProblemsTypes;
             return await wordBL.GetAllPronunciationProblemsTypes();
@@ -41,7 +41,7 @@ namespace Project_server.Controllers
         /// screens:
         /// 1. SpeechTherapist -> exercise -> PronunciationProblemsType
         [HttpGet("{problemsTypeId}/PronunciationProblemLevels")]
-        public async Task<IEnumerable<TblDifficultyLevel>> GetAllLevels(int problemsTypeId)
+        public async Task<List<TblDifficultyLevel>> GetAllLevels(int problemsTypeId)
         {
             // return all the level of this Pronunciation Problem
             return await wordBL.GetAllLevels(problemsTypeId);
@@ -49,7 +49,7 @@ namespace Project_server.Controllers
         /// screens:
         /// 1. SpeechTherapist -> exercise -> PronunciationProblemsType -> Difficultylevel
         [HttpGet("{levelId}/LevelWords")]
-        public async Task<IEnumerable<TblWord>> Get(int levelId)
+        public async Task<List<TblWord>> Get(int levelId)
         {
             // return all the words of this level;
             return await wordBL.GetAllWords(levelId);
@@ -59,19 +59,20 @@ namespace Project_server.Controllers
         // POST api/<WordController>
         /// screens:
         /// 1. SpeechTherapist -> addLevel
-        [HttpPost("{pronunciationProblemId/addLevel}")]
-        public async Task PostLevel(int pronunciationProblemId )
+        [HttpPost("/addLevel")]
+        public async Task PostLevel([FromBody] TblDifficultyLevel difficultyLevel )
         {
             //add new level to this problem
-             await wordBL.PostLevel(pronunciationProblemId);
+             await wordBL.PostLevel(difficultyLevel);
         }
 
         /// screens:
         /// 1. SpeechTherapist -> Level -> addWord
-        [HttpPost("{word}")]
-        public void PostWord([FromBody] TblDifficultyLevel level, string word)
+        [HttpPost("/word")]
+        public async Task PostWord([FromBody]TblWord word)
         {
             //add new word to this level
+            await wordBL.PostWord(word);
         }
 
         // PUT api/<WordController>/5
@@ -79,30 +80,43 @@ namespace Project_server.Controllers
         [HttpPut("{id}/{levelName}")]
         /// screens:
         /// 1. SpeechTherapist -> editLevel
-        public void Put(string id, int levelName)
+        public async Task Put(int id, int levelName)
         {
             //change level name
+            await wordBL.PutLevel(id, levelName);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         /// screens:
         /// 1. SpeechTherapist -> Level ->edit word
-        public void Put(string id, [FromBody] TblWord word)
+        public async Task Put([FromBody] TblWord tblWord)
         {
             //change word
+            await wordBL.PutWord(tblWord);
         }
+
 
         /// screens:
         /// 1. SpeechTherapist -> deleteLevel
         /// 2.SpeechTherapist -> deleteword
 
         // DELETE api/<WordController>/5
-        [HttpDelete("{levelId}/{wordId}")]
-        public void Delete(int levelId, int wordId = 0)
+        [HttpDelete("{wordId}/deleteWord")]
+        public async Task DeleteWord(int wordId)
         {
-            //delete the word from the level, 
-            //if the id=0 delete all the words at the level
+            //delete the word from the level 
+            await wordBL.DeleteWord(wordId);
+
         }
+
+        // DELETE api/<WordController>/5
+        [HttpDelete("{levelId}/deleteAllLevelWords")]
+        public async Task DeleteLevel(int levelId)
+        {
+            //delete all the words at the level
+            await wordBL.DeleteLevel(levelId);
+        }
+
 
     }
 

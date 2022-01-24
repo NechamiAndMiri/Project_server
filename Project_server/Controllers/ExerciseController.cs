@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DTO;
+using AutoMapper;
 
 /// <summary>
 /// using the tables:
@@ -14,70 +16,76 @@ using System.Threading.Tasks;
 
 public class ExerciseController : ControllerBase
 {
+    IMapper mapper;
     IExerciseBL exerciseBL;
-    public ExerciseController(IExerciseBL exerciseBL)
+    public ExerciseController(IExerciseBL exerciseBL, IMapper mapper )
     {
+        this.mapper = mapper;
         this.exerciseBL = exerciseBL;
     }
     // GET: api/<ExerciseController>
     /// screens:
     /// 1. SpeechTherapist -> exercise (Screen) -> PronunciationProblemsType -> Difficultylevel
-    [HttpGet]
-    public IEnumerable<TblExercise> Get([FromBody] TblDifficultyLevel level)
+    [HttpGet("{difficultylevelId}")]
+    public async Task<List<TblExercise>> Get(int difficultylevelId)
     {
         // return all the exercise of this level;
-        return null;
+        return await exerciseBL.GetExercises(difficultylevelId);
     }
+    // GET: api/<ExerciseController>
     /// screens:
     /// 1. SpeechTherapist -> exercise (Screen) -> PronunciationProblemsType -> Difficultylevel-> exercise 
-    [HttpGet]
-    public IEnumerable<TblWord> Get([FromBody] TblExercise exercise)
+    [HttpGet("{exerciseId}/getWordsForExercise")]
+    public async Task<List<WordExerciseDTO>> GetExerciseWords(int exerciseId)
     {
-        // return all the exercise of this level;
-        return null;
+          // return all the words of this exercise;
+      return mapper.Map<List<TblWordsPerExercise>, List<WordExerciseDTO>>(await exerciseBL.GetExerciseWords(exerciseId));
+        
     }
 
     // POST api/<ExerciseController>
     /// screens:
     /// 1. SpeechTherapist -> Level -> addExercises
-    [HttpPost("{ExerciseName}")]
-    public void Post([FromBody] TblDifficultyLevel level,  string ExerciseName)
+    [HttpPost("/PostExercise")]
+    public async Task Post( [FromBody] TblExercise exercise)
     {
         //add new Exercise to this level
+       await exerciseBL.PostExercise(exercise);
     }
     /// screens:
     /// 1. SpeechTherapist -> Level -> Exercise ->addWord
-    [HttpPost("{WordId}")]
-    public void Post([FromBody] TblExercise exercise,  string WordId)
+    [HttpPost("/AddWordPerExercise")]
+    public async Task PostWordPerExercise([FromBody] TblWordsPerExercise wordPerExercise)
     {
         //add new word to this Exercises
+        await exerciseBL.PostWordPerExercise(wordPerExercise);//mapper.Map<WordExerciseDTO,TblWordsPerExercise>(wordPerExercise));
     }
 
     // PUT api/<ExerciseController>/5
     /// screens:
     /// 1. SpeechTherapist -> Level -> editExercises
-    [HttpPut("{ExerciseName}")]
-    public void Put([FromBody] int id,  string ExerciseName)
+    [HttpPut("/PutExercise")]
+    public async Task Put([FromBody] TblExercise exercise)
     {
-        // change Exercise name
-    }
-
-
-    [HttpPut("{id}")]
-    /// screens:
-    /// 1. SpeechTherapist -> Level -> Exercise ->editWord
-    public void Put(int id, [FromBody] TblWord word)
-    {
-        // change word
+        // change Exercise
+        await exerciseBL.PutExercise(exercise);
     }
 
     // DELETE api/<ExerciseController>/5
     /// screens:
     /// 1. SpeechTherapist -> Level -> deleteExercises
-    [HttpDelete("{id}")]
-    public void Delete(int id, [FromBody] int tbl)
+    [HttpDelete("{exerciseId}")]
+    public async Task DeleteExercise(int exerciseId)
     {
-        //delete Exercises or word fromExercises
+        //delete Exercises
+        await exerciseBL.DeleteExercise(exerciseId);
+    }
+
+    [HttpDelete("{wordId}/DeleteWord")]
+    public async Task DeleteWordFromExercise(int wordId)
+    {
+        //delete word fromExercises
+        await exerciseBL.DeleteWordFromExercise(wordId);
     }
 }
 

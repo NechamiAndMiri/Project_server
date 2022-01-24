@@ -12,12 +12,14 @@ namespace Entities
         public int LessonId { get; set; }
         public int WordId { get; set; }
         public string PatientRecording { get; set; }
-        public int Score { get; set; }
-        public bool IsValid { get; set; }
+        public int? Score { get; set; }
+        public bool? IsValid { get; set; }
 
         [JsonIgnore]
         public virtual TblLesson Lesson { get; set; }
         [JsonIgnore]
         public virtual TblWord Word { get; set; }
+
+    
     }
 }

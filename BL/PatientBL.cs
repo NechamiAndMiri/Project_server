@@ -26,7 +26,7 @@ namespace BL
             return patientDL.deletePatient(id);
         }
 
-        public async Task<IEnumerable<PatientDTO>> GetPatient(int speechTherapistId)
+        public async Task<List<PatientDTO>> GetPatient(int speechTherapistId)
         {
             return await patientDL.GetPatient(speechTherapistId);
         }

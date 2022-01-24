@@ -1,5 +1,4 @@
-﻿using Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
@@ -20,7 +19,6 @@ namespace Entities
         public int PronunciationProblemId { get; set; }
         public int DifficultyLevel { get; set; }
         public int SpeechTherapistId { get; set; }
-
         [JsonIgnore]
         public virtual TblPronunciationProblemsType PronunciationProblem { get; set; }
         [JsonIgnore]

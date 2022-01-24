@@ -17,24 +17,52 @@ namespace BL
             this.wordDL = wordDL;
         }
 
-        public async Task<IEnumerable<TblDifficultyLevel>> GetAllLevels(int problemsTypeId)
+        public async Task<List<TblDifficultyLevel>> GetAllLevels(int problemsTypeId)
         {
             return await wordDL.GetAllLevels(problemsTypeId);
         }
 
-        public async Task<IEnumerable<TblPronunciationProblemsType>> GetAllPronunciationProblemsTypes()
+        public async Task<List<TblPronunciationProblemsType>> GetAllPronunciationProblemsTypes()
         {
             return await wordDL.GetAllPronunciationProblemsTypes();
         }
 
-        public Task PostLevel(int pronunciationProblemId)
-        {
-            throw new NotImplementedException();
-        }
+   
 
-        public async Task<IEnumerable<TblWord>> GetAllWords(int levelId)
+        public async Task<List<TblWord>> GetAllWords(int levelId)
         {
             return await wordDL.GetAllWords(levelId);
         }
+
+        public async Task PostLevel(TblDifficultyLevel difficultyLevel)
+        {
+            await wordDL.PostLevel(difficultyLevel);
+        }
+
+        public async Task PostWord(TblWord word)
+        {
+            await wordDL.PostWord(word);
+        }
+
+        public async Task DeleteLevel(int levelId)
+        {
+            await wordDL.DeleteLevel(levelId);
+        }
+
+        public async Task DeleteWord(int wordId)
+        {
+            await wordDL.DeleteWord(wordId);
+        }
+
+        public async Task PutLevel(int id, int levelName)
+        {
+            await wordDL.PutLevel(id, levelName);
+        }
+
+        public async Task PutWord(TblWord tblWord)
+        {
+            await wordDL.PutWord(tblWord);
+        }
+
     }
 }

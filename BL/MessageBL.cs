@@ -25,7 +25,7 @@ namespace BL
             await messageDL.deleteMessage(id);
         }
 
-        public async Task<IEnumerable<TblMessage>> getMessage(int speechTherapistID)
+        public async Task<List<TblMessage>> getMessage(int speechTherapistID)
         {
             return await messageDL.getMesssage(speechTherapistID);
         }

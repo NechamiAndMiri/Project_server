@@ -6,7 +6,7 @@ namespace DL
 {
     public interface IMessageDL
     {
-        Task<IEnumerable<TblMessage>> getMesssage(int speechTherapistID);
+        Task<List<TblMessage>> getMesssage(int speechTherapistID);
         Task postMessage( TblMessage value);
         Task putMessage(int id);
         Task deleteMessage(int id);

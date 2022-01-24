@@ -20,7 +20,7 @@ namespace DL
         }
 
 
-        public async Task<IEnumerable<SpeechTherapistDTO>> GetaAllSpeechTherapists()
+        public async Task<List<SpeechTherapistDTO>> GetaAllSpeechTherapists()
         {
             List<TblSpeechTherapist> speechTherapists=await generalDBContext.TblSpeechTherapists.ToListAsync();
 

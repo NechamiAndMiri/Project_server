@@ -20,7 +20,7 @@ namespace DL
             generalDBContext = new GeneralDBContext();
         }
 
-        async public Task<IEnumerable<PatientDTO>> GetPatient(int speechTherapistId)
+        async public Task<List<PatientDTO>> GetPatient(int speechTherapistId)
         {
             List<TblPatient> patients= await generalDBContext.TblPatients.Where(p => p.SpeechTherapistId == speechTherapistId).ToListAsync();
             

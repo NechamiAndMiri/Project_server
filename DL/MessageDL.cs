@@ -14,9 +14,9 @@ namespace DL
 
       
 
-        async public Task<IEnumerable<TblMessage>> getMesssage(int speechTherapistID)
+        async public Task<List<TblMessage>> getMesssage(int speechTherapistID)
         {
-             return await generalDBContext.TblMessages.Where(m => m.Patient.SpeechTherapistId == speechTherapistID).ToListAsync(); 
+             return await generalDBContext.TblMessages.Where(m => m.Patient.SpeechTherapistId == speechTherapistID).Include(m=>m.Patient).ThenInclude(m=>m.User).ToListAsync(); 
         }
 
         public async Task postMessage( TblMessage value)
