@@ -25,5 +25,10 @@ namespace DL
         {
             return await generalDBContext.TblPronunciationProblemsTypes.ToListAsync();
         }
+
+        public async Task<IEnumerable<TblWord>> GetAllWords(int levelId)
+        {
+            return await generalDBContext.TblWords.Where(w=>w.DifficultyLevelId==levelId).ToListAsync();
+        }
     }
 }

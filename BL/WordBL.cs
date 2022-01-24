@@ -31,5 +31,10 @@ namespace BL
         {
             throw new NotImplementedException();
         }
+
+        public async Task<IEnumerable<TblWord>> GetAllWords(int levelId)
+        {
+            return await wordDL.GetAllWords(levelId);
+        }
     }
 }
