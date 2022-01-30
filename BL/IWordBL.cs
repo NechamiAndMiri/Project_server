@@ -6,8 +6,8 @@ namespace BL
 {
     public interface IWordBL
     {
-        Task<IEnumerable<TblPronunciationProblemsType>> GetAllPronunciationProblemsTypes();
-        Task<IEnumerable<TblDifficultyLevel>> GetAllLevels(int problemsTypeId);
+        Task<List<TblPronunciationProblemsType>> GetAllPronunciationProblemsTypes();
+        Task<List<TblDifficultyLevel>> GetAllLevels(int problemsTypeId);
         Task PostLevel(int pronunciationProblemId);
     }
 }

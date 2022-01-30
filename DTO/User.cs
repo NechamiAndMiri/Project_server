@@ -12,10 +12,10 @@ namespace DTO
     {
         public TblUser User { get; set; }
 
-        public static implicit operator UserDTO(TblUser v)
-        {
-            throw new NotImplementedException();
-        }
+        //public static implicit operator UserDTO(TblUser v)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         //בקונטרולור
 
