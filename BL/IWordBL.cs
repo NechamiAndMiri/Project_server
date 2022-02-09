@@ -8,6 +8,12 @@ namespace BL
     {
         Task<List<TblPronunciationProblemsType>> GetAllPronunciationProblemsTypes();
         Task<List<TblDifficultyLevel>> GetAllLevels(int problemsTypeId);
-        Task PostLevel(int pronunciationProblemId);
+        Task PostLevel(TblDifficultyLevel difficultyLevel);
+        public  Task PutWord(TblWord tblWord);
+        public  Task PutLevel(int id, int levelName);
+        public  Task DeleteWord(int wordId);
+        public  Task DeleteLevel(int levelId);
+        public  Task PostWord(TblWord word);
+        public  Task<List<TblWord>> GetAllWords(int levelId);
     }
 }
