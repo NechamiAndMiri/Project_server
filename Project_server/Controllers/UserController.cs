@@ -34,35 +34,39 @@ namespace Project_server.Controllers
 
         /// screens:
         /// 1. login
-        [HttpGet("{firstName}, {lastName},{password}")]
-        public async Task<UserDTO> Get(string firstName, string lastName, string password)
+       [HttpPost]
+        public async Task<ActionResult<UserDTO>> Get([FromBody]LogInUser logInUser)
         {
             //return current user
             UserDTO userDTO;
-              TblUser user= await userBL.getUser(firstName,lastName, password);
+            
+              TblUser user= await userBL.getUser(logInUser.FirstName,logInUser.LastName,logInUser.Password);
             if (user.PermissionLevelId == 1)
             {
                 userDTO = new UserDTO();
                 userDTO.User = user;
-                return userDTO;
+                return Ok(userDTO);
+
             } 
             else if (user.PermissionLevelId == 2)
             {
                 userDTO = new SpeechTherapistDTO();
                 ((SpeechTherapistDTO)userDTO).User = user;
                 ((SpeechTherapistDTO)userDTO).SpeechTherapist = await SpeechTherapistBL.GetSingleSpeechTherapist(user.Id);
-                return ((SpeechTherapistDTO)userDTO);
+               
+                return Ok((SpeechTherapistDTO)userDTO);
             }
             else if(user.PermissionLevelId == 3)
             {
                 userDTO = new PatientDTO();
                 ((PatientDTO)userDTO).User = user;
                 ((PatientDTO)userDTO).Patient = await patientBL.GetSinglePatient(user.Id);
-                return ((PatientDTO)userDTO);
+                
+                return Ok((PatientDTO)userDTO);
             }
-        
 
-            return null;
+
+            return NotFound(null);
         }
 
     

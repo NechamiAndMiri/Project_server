@@ -56,9 +56,14 @@ namespace DL
         }
 
         public async Task PutPatient(int id, TblPatient tblPatient)
+
+            // הפונקציה שלהלן לא מסונכרנת עם השליפה של המשתמש בכניסה למערכת
+            // שם השתמשנו בDTO ופה לא
+            // מסתבר שיווצרו בעיות, אפשר לשנות גם כאן לDTO
         {
             TblPatient patient = await generalDBContext.TblPatients.FindAsync(id);
             TblUser user= await generalDBContext.TblUsers.FindAsync(patient.UserId);//לברר למה זה לא עבד בלי לטפל בנפרד בטבלת משתמש
+            tblPatient.User.Password = user.Password;
             if (patient==null)
             {
                 return;

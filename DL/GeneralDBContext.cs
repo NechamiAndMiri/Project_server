@@ -297,7 +297,6 @@ namespace DL
 
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasMaxLength(30)
                     .HasColumnName("password");
 
                 entity.Property(e => e.PermissionLevelId).HasColumnName("permission_level_ID");

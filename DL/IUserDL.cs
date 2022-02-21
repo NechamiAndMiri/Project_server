@@ -7,6 +7,6 @@ namespace DL
     {
         public Task<TblUser> getUser(string firstName, string lastName, string password);
         public Task<TblUser> GetUser(int userId);
-      
+        Task PostUser(TblUser user);
     }
 }

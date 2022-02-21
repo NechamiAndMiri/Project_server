@@ -49,9 +49,13 @@ namespace DL
         }
 
         public async Task PutSpeechTherapist(int id,TblSpeechTherapist tblspeechTherapist)
+        // הפונקציה שלהלן לא מסונכרנת עם השליפה של המשתמש בכניסה למערכת
+        // שם השתמשנו בDTO ופה לא
+        // מסתבר שיווצרו בעיות, אפשר לשנות גם כאן לDTO
         {
             TblSpeechTherapist speechTherapist = await generalDBContext.TblSpeechTherapists.FindAsync(id);
             TblUser user = await generalDBContext.TblUsers.FindAsync(speechTherapist.UserId);//לברר למה זה לא עבד בלי לטפל בנפרד בטבלת משתמש
+            tblspeechTherapist.User.Password = user.Password;
             if (speechTherapist == null)
             {
                 return;

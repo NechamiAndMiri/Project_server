@@ -31,7 +31,7 @@ namespace DL
 
 
 
-        ///////////////בשביל מה עשינו את זה? בעקרון צריך למחוק//////////////////////
+    
         public async Task PostUser(TblUser tblUser)
         {
             await generalDBContext.TblUsers.AddAsync(tblUser);

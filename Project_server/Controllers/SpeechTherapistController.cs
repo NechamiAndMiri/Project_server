@@ -21,10 +21,12 @@ namespace Project_server.Controllers
     {
 
         ISpeechTherapistBL speechTherapistBL;
+        IUserBL userBL;
 
-        public SpeechTherapistController(ISpeechTherapistBL speechTherapistBL)
+        public SpeechTherapistController(ISpeechTherapistBL speechTherapistBL,IUserBL userBL)
         {
             this.speechTherapistBL = speechTherapistBL;
+            this.userBL = userBL;
         }
 
 
@@ -58,9 +60,11 @@ namespace Project_server.Controllers
         /// screens:
         /// 1. admin
         [HttpPost]
-        public async Task Post([FromBody] TblSpeechTherapist speechTherapist)
+        public async Task Post([FromBody] SpeechTherapistDTO speechTherapist)
         {
-           await speechTherapistBL.PostSpeechTherapist(speechTherapist);
+           await speechTherapistBL.PostSpeechTherapist(speechTherapist.SpeechTherapist);
+           await userBL.PostUser(speechTherapist.User);
+
         }
 
         // PUT api/<SpeechTherapistController>/5

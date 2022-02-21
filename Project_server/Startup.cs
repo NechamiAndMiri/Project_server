@@ -56,7 +56,10 @@ namespace Project_server
             services.AddScoped<IWordBL, WordBL>();
             services.AddScoped<IRatingBL, RatingBL>();
             services.AddScoped<IRatingDL, RatingDL>();
-            services.AddDbContext<GeneralDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionString_miri")), ServiceLifetime.Scoped);
+
+            services.AddScoped<IPasswordHashHelper, PasswordHashHelper>();
+
+            services.AddDbContext<GeneralDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("miri")));
             services.AddResponseCaching();
             services.AddControllers();
             services.AddSwaggerGen(c =>

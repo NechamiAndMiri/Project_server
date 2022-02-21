@@ -19,7 +19,7 @@ namespace Entities
         public string Address { get; set; }
         public string Prospectus { get; set; }
         public string Logo { get; set; }
-
+        [JsonIgnore]
         public virtual TblUser User { get; set; }
         [JsonIgnore]
         public virtual ICollection<TblDifficultyLevel> TblDifficultyLevels { get; set; }

@@ -2,6 +2,7 @@
 using BL;
 using DTO;
 using Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace Project_server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PatientController : ControllerBase
     {
 
@@ -70,9 +72,11 @@ namespace Project_server.Controllers
         /// 1. SpeechTherapist -> patients->add
         // POST api/<PatientController>
         [HttpPost]
-        public async Task Post([FromBody] TblPatient patient)
+        public async Task Post([FromBody] PatientDTO patient)
         {
-            await patientBL.PostPatient(patient);
+            await patientBL.PostPatient(patient.Patient);
+            await userBL.PostUser(patient.User);
+
 
         }
         /// screens:

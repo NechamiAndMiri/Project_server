@@ -23,7 +23,7 @@ namespace Entities
         public virtual TblPronunciationProblemsType PronunciationProblem { get; set; }
         [JsonIgnore]
         public virtual TblSpeechTherapist SpeechTherapist { get; set; }
-       
+        [JsonIgnore]
         public virtual TblUser User { get; set; }
         [JsonIgnore]
         public virtual ICollection<TblLesson> TblLessons { get; set; }
