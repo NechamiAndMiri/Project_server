@@ -1,5 +1,7 @@
 ﻿
+using AutoMapper;
 using BL;
+using DTO;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,10 +21,12 @@ namespace Project_server.Controllers
     public class LessonController : ControllerBase
     {
         ILessonBL lessonBL;
+        IMapper mapper;
 
-        public LessonController(ILessonBL lessonBL)
+        public LessonController(ILessonBL lessonBL, IMapper mapper)
         {
             this.lessonBL = lessonBL;
+            this.mapper = mapper;
         }
 
         /// screens:
@@ -30,10 +34,11 @@ namespace Project_server.Controllers
         /// 2. patient
         // GET: api/<LessonController>
         [HttpGet("{patientID}")]
-        public async Task<List<TblLesson>> GetAllLessons(int patientID)
+        public async Task<List<LessonDTO>> GetAllLessons(int patientID)
         {
             // get all lessons
-            return await lessonBL.GetAllLessons(patientID);
+            var less= await lessonBL.GetAllLessons(patientID);
+            return mapper.Map<List<TblLesson>, List<LessonDTO>>(less);
         }
 
         /// screens:

@@ -28,6 +28,12 @@ namespace Project_server
                 .ForMember(dest => dest.DifficultyLevelId,
                 opts => opts.MapFrom(src => src.Word.DifficultyLevelId)).ReverseMap();
 
+            CreateMap<TblLesson, LessonDTO>()
+                .ForMember(dest=>dest.DifficultyLevel,
+                opts=> opts.MapFrom(src=>src.DifficultyLevel.DifficultyLevel))
+                .ForMember(dest => dest.PronunciationProblemName,
+                opts=> opts.MapFrom(src=>src.DifficultyLevel.PronunciationProblem.ProblemName)).ReverseMap();
+
             //CreateMap<TblUser, PatientDTO>().ReverseMap();
             //CreateMap<TblPatient, PatientDTO>().ReverseMap();
 
