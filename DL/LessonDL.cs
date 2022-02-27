@@ -19,12 +19,12 @@ namespace DL
 
         public async Task<List<TblLesson>> GetAllLessons(int patientID)
         {
-            return await generalDBContext.TblLessons.Where(l => l.PatientId == patientID).ToListAsync();//.Include(x => ((TblWordsGivenToPractice)x).Score)
+            return await generalDBContext.TblLessons.Where(l => l.PatientId == patientID).Include(l=>l.DifficultyLevel).ThenInclude(d=>d.PronunciationProblem).ToListAsync();//.Include(x => ((TblWordsGivenToPractice)x).Score)
         }
 
         public async Task<List<TblWordsGivenToPractice>> GetLessonWords(int lessonID)
         {
-            return await generalDBContext.TblWordsGivenToPractices.Where(w => w.LessonId == lessonID).ToListAsync();
+            return await generalDBContext.TblWordsGivenToPractices.Where(w => w.LessonId == lessonID).Include(l=>l.Word).ToListAsync();
         }
 
         public async Task PostLesson(TblLesson tblLesson)
