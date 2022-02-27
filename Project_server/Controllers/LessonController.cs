@@ -46,10 +46,11 @@ namespace Project_server.Controllers
         /// 2.patient->lesson
         // GET: api/<LessonController>
         [HttpGet("{lessonID}/get_all_WORDS_FOR_lesson")]
-        public async Task<List<TblWordsGivenToPractice>> GetLessonWords(int lessonID)
+        public async Task<List<WordsGivenToPracticeDTO>> GetLessonWords(int lessonID)
         {
             // get all WORDS FOR lesson
-            return await lessonBL.GetLessonWords(lessonID);
+           var words= await lessonBL.GetLessonWords(lessonID);
+            return mapper.Map<List<TblWordsGivenToPractice>, List<WordsGivenToPracticeDTO>>(words);
         }
 
 
