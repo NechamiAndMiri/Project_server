@@ -3,9 +3,11 @@ using AutoMapper;
 using BL;
 using DTO;
 using Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -37,7 +39,7 @@ namespace Project_server.Controllers
         public async Task<List<LessonDTO>> GetAllLessons(int patientID)
         {
             // get all lessons
-            var less= await lessonBL.GetAllLessons(patientID);
+            var less = await lessonBL.GetAllLessons(patientID);
             return mapper.Map<List<TblLesson>, List<LessonDTO>>(less);
         }
 
@@ -45,11 +47,11 @@ namespace Project_server.Controllers
         /// 1. SpeechTherapist->patients->lessons->show
         /// 2.patient->lesson
         // GET: api/<LessonController>
-        [HttpGet("{lessonID}/get_all_WORDS_FOR_lesson")]
+        [HttpGet("get_all_WORDS_FOR_lesson/{lessonID}")]
         public async Task<List<WordsGivenToPracticeDTO>> GetLessonWords(int lessonID)
         {
             // get all WORDS FOR lesson
-           var words= await lessonBL.GetLessonWords(lessonID);
+            var words = await lessonBL.GetLessonWords(lessonID);
             return mapper.Map<List<TblWordsGivenToPractice>, List<WordsGivenToPracticeDTO>>(words);
         }
 
@@ -76,9 +78,36 @@ namespace Project_server.Controllers
             await lessonBL.PostWordToLesson(WordGivenToPractice);
         }
 
+        static TblWordsGivenToPractice pratciceWord;
+        [HttpPut]
+        [Route("getWordToUpdate")]
+        //public async Task UpdateRecording(int wordId)
+        public void UpdateRecordingWord([FromBody] WordsGivenToPracticeDTO word)
+        {
 
-        // PUT api/<LessonController>/5
-        [HttpPut("/lesson")]
+            pratciceWord =  mapper.Map<WordsGivenToPracticeDTO, TblWordsGivenToPractice>(word);
+        }
+        [HttpPut]
+        [Route("UpdateRecording")]
+        //public async Task UpdateRecording(int wordId)
+       public async Task UpdateRecording()
+        {
+            var file = Request.Form.Files[0];
+            string filePath = Path.GetFullPath("recordings/" + file.FileName);
+
+            using (var stream = System.IO.File.Create(filePath))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            //await lessonBL.PutWordRecording(wordId,filePath);
+            await lessonBL.PutWordRecording(pratciceWord, filePath);
+        }
+
+        
+
+            // PUT api/<LessonController>/5
+            [HttpPut("/lesson")]
         public async Task PutLesson([FromBody] TblLesson tblLesson)
         {
             await lessonBL.PutLesson(tblLesson);

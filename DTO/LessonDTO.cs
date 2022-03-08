@@ -8,6 +8,7 @@ namespace DTO
 {
     public class LessonDTO
     {
+
         public int Id { get; set; }
         public int PatientId { get; set; }
         public DateTime Date { get; set; }
@@ -15,7 +16,7 @@ namespace DTO
         public string LessonDescription { get; set; }
         public int? WeightedScore { get; set; }
         public bool IsDone { get; set; }
-        public int PronunciationProblemName { get;set;}
-        public int DifficultyLevel { get; set; }
+        public string PronunciationProblemName { get;set;}
+        public int DifficultyLevelName { get; set; }
     }
 }

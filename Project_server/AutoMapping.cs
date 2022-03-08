@@ -29,10 +29,10 @@ namespace Project_server
                 opts => opts.MapFrom(src => src.Word.DifficultyLevelId)).ReverseMap();
 
             CreateMap<TblLesson, LessonDTO>()
-                .ForMember(dest=>dest.DifficultyLevel,
-                opts=> opts.MapFrom(src=>src.DifficultyLevel.DifficultyLevel))
+          .ForMember(dest => dest.DifficultyLevelName,
+                opts => opts.MapFrom(src => src.DifficultyLevel.DifficultyLevel))
                 .ForMember(dest => dest.PronunciationProblemName,
-                opts=> opts.MapFrom(src=>src.DifficultyLevel.PronunciationProblem.ProblemName)).ReverseMap();
+                opts => opts.MapFrom(src => src.DifficultyLevel.PronunciationProblem.ProblemName)).ReverseMap();
 
             CreateMap<TblWordsGivenToPractice, WordsGivenToPracticeDTO>()
                 .ForMember(dest=>dest.WordText,

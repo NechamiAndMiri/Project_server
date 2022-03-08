@@ -8,7 +8,14 @@ namespace Entities
 {
     public partial class TblWordsGivenToPractice
     {
-        public int Id { get; set; }
+        //public TblWordsGivenToPractice(TblWordsGivenToPractice otherWordGivenTo)
+        //{
+        //    this.Id = otherWordGivenTo.Id;
+        //    this.IsValid = otherWordGivenTo.IsValid;
+        //    this.
+
+        //}
+          public int Id { get; set; }
         public int LessonId { get; set; }
         public int WordId { get; set; }
         public string PatientRecording { get; set; }

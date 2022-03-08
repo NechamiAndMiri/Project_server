@@ -101,7 +101,22 @@ namespace DL
             await generalDBContext.SaveChangesAsync();
         }
 
+        public async Task PutWordRecording(TblWordsGivenToPractice word, string filePath)
+        {
+            TblWordsGivenToPractice practiceWord = await generalDBContext.TblWordsGivenToPractices.FindAsync(word.Id);
+            if (practiceWord == null)
+            {
+                return;
+            }
+            var x = generalDBContext.Entry(practiceWord);
+            practiceWord.PatientRecording = filePath;
+            x.CurrentValues.SetValues(practiceWord);
+            //word.PatientRecording = filePath;
 
+            //generalDBContext.Entry(practiceWord).CurrentValues.SetValues(word);
+            await generalDBContext.SaveChangesAsync();
+            int s = 3;
+        }
     }
 }
 

@@ -17,5 +17,6 @@ namespace DL
       Task DeleteWordFromLesson(int wordId);
       Task PutLesson(TblLesson tblLesson);
       Task PutWordForLesson(TblWordsGivenToPractice word);
+        Task PutWordRecording(TblWordsGivenToPractice word, string filePath);
     }
 }

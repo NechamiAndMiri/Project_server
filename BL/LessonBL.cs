@@ -75,7 +75,10 @@ namespace BL
         {
             await lessonDL.PutColIsValidAtWordToPractice(wordId);
         }
-
+         public async Task PutWordRecording(TblWordsGivenToPractice word, string filePath)
+        {
+            await lessonDL.PutWordRecording(word, filePath);
+        }
         public async Task DeleteLesson(int lessonId)
         {
             await lessonDL.DeleteLesson(lessonId);
@@ -86,7 +89,7 @@ namespace BL
             await lessonDL.DeleteWordFromLesson(wordId);
         }
 
-
+       
     }
 }
 
