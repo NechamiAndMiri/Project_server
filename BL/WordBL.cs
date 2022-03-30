@@ -17,9 +17,9 @@ namespace BL
             this.wordDL = wordDL;
         }
 
-        public async Task<List<TblDifficultyLevel>> GetAllLevels(int problemsTypeId)
+        public async Task<List<TblDifficultyLevel>> GetAllLevels(int problemsTypeId, int speechTherapistId)
         {
-            return await wordDL.GetAllLevels(problemsTypeId);
+            return await wordDL.GetAllLevels(problemsTypeId,speechTherapistId);
         }
 
         public async Task<List<TblPronunciationProblemsType>> GetAllPronunciationProblemsTypes()
@@ -34,9 +34,9 @@ namespace BL
             return await wordDL.GetAllWords(levelId);
         }
 
-        public async Task PostLevel(TblDifficultyLevel difficultyLevel)
+        public async Task<TblDifficultyLevel> PostLevel(TblDifficultyLevel difficultyLevel)
         {
-            await wordDL.PostLevel(difficultyLevel);
+           return await wordDL.PostLevel(difficultyLevel);
         }
 
         public async Task PostWord(TblWord word)
@@ -54,15 +54,16 @@ namespace BL
             await wordDL.DeleteWord(wordId);
         }
 
-        public async Task PutLevel(int id, int levelName)
+        public async Task<bool> PutLevel(int id, int levelName)
         {
-            await wordDL.PutLevel(id, levelName);
+           return await wordDL.PutLevel(id, levelName);
         }
 
         public async Task PutWord(TblWord tblWord)
         {
             await wordDL.PutWord(tblWord);
         }
+
 
     }
 }

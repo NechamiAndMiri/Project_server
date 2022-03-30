@@ -22,6 +22,6 @@ namespace Project_server
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                }).UseNLog();
+                });//.UseNLog();
     }
 }

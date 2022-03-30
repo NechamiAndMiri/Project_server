@@ -16,9 +16,9 @@ namespace DL
            this.generalDBContext= generalDBContext ;
         }
 
-        public async Task<List<TblDifficultyLevel>> GetAllLevels(int problemsTypeId)
+        public async Task<List<TblDifficultyLevel>> GetAllLevels(int problemsTypeId, int speechTherapistId)
         {
-           return await generalDBContext.TblDifficultyLevels.Where(l => l.PronunciationProblemId == problemsTypeId).ToListAsync();
+           return await generalDBContext.TblDifficultyLevels.Where(l => l.PronunciationProblemId == problemsTypeId && l.SpeechTherapistId==speechTherapistId).ToListAsync();
         }
 
         public async Task<List<TblPronunciationProblemsType>> GetAllPronunciationProblemsTypes()
@@ -31,17 +31,25 @@ namespace DL
             return await generalDBContext.TblWords.Where(w=>w.DifficultyLevelId==levelId).ToListAsync();
         }
 
-        public async Task PostLevel(TblDifficultyLevel difficultyLevel)
+        public async Task<TblDifficultyLevel> PostLevel(TblDifficultyLevel difficultyLevel)
         {
-
-            await generalDBContext.TblDifficultyLevels.AddAsync(difficultyLevel);
-            await generalDBContext.SaveChangesAsync();
+            if (levelNameIsValid(difficultyLevel.DifficultyLevel,difficultyLevel.SpeechTherapistId).Result)
+            {
+                TblDifficultyLevel d= (await generalDBContext.TblDifficultyLevels.AddAsync(difficultyLevel)).Entity;
+                await generalDBContext.SaveChangesAsync(); 
+                return d;
+            }
+            return null;
+           
         }
 
         public async Task PostWord(TblWord word)
         {
-            await generalDBContext.TblWords.AddAsync(word);
-            await generalDBContext.SaveChangesAsync();
+            if (wordIsValid(word.WordText, word.DifficultyLevelId).Result)
+            {
+                await generalDBContext.TblWords.AddAsync(word);
+                await generalDBContext.SaveChangesAsync();
+            }
         }
 
         public async Task DeleteLevel(int levelId)
@@ -49,13 +57,13 @@ namespace DL
             //delete all the words at the level
             TblDifficultyLevel difficultyLevel = await generalDBContext.TblDifficultyLevels.FindAsync(levelId);
 
-            foreach (var word in generalDBContext.TblWords)
-            {
-                if (word.DifficultyLevelId == levelId)
-                {
-                    DeleteWord(word.Id);
-                }
-            }
+            //foreach (var word in generalDBContext.TblWords)
+            //{
+            //    if (word.DifficultyLevelId == levelId)
+            //    {
+            //        DeleteWord(word.Id);
+            //    }
+            //}
             generalDBContext.TblDifficultyLevels.Remove(difficultyLevel);
             await generalDBContext.SaveChangesAsync();
         }
@@ -68,14 +76,29 @@ namespace DL
             await generalDBContext.SaveChangesAsync();
         }
 
-        public async Task PutLevel(int id, int levelName)
+        public async Task<bool> PutLevel(int id, int levelName)
         {
             TblDifficultyLevel level = await generalDBContext.TblDifficultyLevels.FindAsync(id);
             var tmp = generalDBContext.Entry(level);
+            if(levelNameIsValid(levelName,level.SpeechTherapistId).Result)
+            {
              level.DifficultyLevel = levelName;
              tmp.CurrentValues.SetValues(level);
-            await generalDBContext.SaveChangesAsync();
-           
+                await generalDBContext.SaveChangesAsync();
+                return true;
+            }
+            
+            return false;
+        }
+
+        public async Task<bool> levelNameIsValid(int levelName,int speechTherapistId)
+        {
+            var res = await generalDBContext.TblDifficultyLevels.Where(l => l.SpeechTherapistId == speechTherapistId && l.DifficultyLevel == levelName).ToListAsync();
+            if (res.Count == 0)
+            {
+                return true;
+            }
+            return false;
         }
 
         public async Task PutWord(TblWord tblWord)
@@ -85,9 +108,22 @@ namespace DL
             {
                 return;
             }
-            generalDBContext.Entry(word).CurrentValues.SetValues(tblWord);
-            await generalDBContext.SaveChangesAsync();
+            if (wordIsValid(tblWord.WordText,tblWord.DifficultyLevelId).Result)
+            {
+                generalDBContext.Entry(word).CurrentValues.SetValues(tblWord);
+                await generalDBContext.SaveChangesAsync();
+            }
+            
         }
 
+        public async Task<bool> wordIsValid(string wordText, int levelId)
+        {
+            var res = await generalDBContext.TblWords.Include(w=>w.DifficultyLevel).Where(w => w.WordText == wordText && w.DifficultyLevelId == levelId).ToListAsync();
+            if (res.Count == 0)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

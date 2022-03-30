@@ -20,7 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="recordings\" />
+    <Folder Include="recordings\words\" />
+    <Folder Include="recordings\ofPatient\" />
   </ItemGroup>
 
 </Project>

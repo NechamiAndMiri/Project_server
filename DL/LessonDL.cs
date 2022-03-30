@@ -115,7 +115,7 @@ namespace DL
 
             //generalDBContext.Entry(practiceWord).CurrentValues.SetValues(word);
             await generalDBContext.SaveChangesAsync();
-            int s = 3;
+            
         }
     }
 }

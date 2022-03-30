@@ -3,6 +3,7 @@ using Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -40,11 +41,11 @@ namespace Project_server.Controllers
         }
         /// screens:
         /// 1. SpeechTherapist -> exercise -> PronunciationProblemsType
-        [HttpGet("{problemsTypeId}/PronunciationProblemLevels")]
-        public async Task<List<TblDifficultyLevel>> GetAllLevels(int problemsTypeId)
+        [HttpGet("{problemsTypeId}/{speechTherapistId}/PronunciationProblemLevels")]
+        public async Task<List<TblDifficultyLevel>> GetAllLevels(int problemsTypeId, int speechTherapistId)
         {
             // return all the level of this Pronunciation Problem
-            return await wordBL.GetAllLevels(problemsTypeId);
+            return await wordBL.GetAllLevels(problemsTypeId,speechTherapistId);
         }
         /// screens:
         /// 1. SpeechTherapist -> exercise -> PronunciationProblemsType -> Difficultylevel
@@ -59,31 +60,56 @@ namespace Project_server.Controllers
         // POST api/<WordController>
         /// screens:
         /// 1. SpeechTherapist -> addLevel
-        [HttpPost("/addLevel")]
-        public async Task PostLevel([FromBody] TblDifficultyLevel difficultyLevel )
+        [HttpPost]
+        public async Task<TblDifficultyLevel>  PostLevel([FromBody] TblDifficultyLevel difficultyLevel )
         {
             //add new level to this problem
-             await wordBL.PostLevel(difficultyLevel);
+            return await wordBL.PostLevel(difficultyLevel);
         }
 
+
+    static TblWord speechTherapistWord;
         /// screens:
         /// 1. SpeechTherapist -> Level -> addWord
-        [HttpPost("/word")]
-        public async Task PostWord([FromBody]TblWord word)
+        [HttpPost]
+        [Route("word")]
+        public async Task StartPostWord([FromBody]TblWord word)
         {
             //add new word to this level
-            await wordBL.PostWord(word);
+            speechTherapistWord = word;
         }
+        
+
+        [HttpPost]
+        [Route("PostWordRecording")]
+        //public async Task UpdateRecording(int wordId)
+        public async Task UpdateRecording()
+        {
+            var file = Request.Form.Files[0];
+            string filePath = Path.GetFullPath("recordings/words/" + file.FileName);
+
+            using (var stream = System.IO.File.Create(filePath))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            //await lessonBL.PutWordRecording(wordId,filePath);
+
+            speechTherapistWord.WordRecording = filePath;
+
+            await wordBL.PostWord(speechTherapistWord);
+        }
+
 
         // PUT api/<WordController>/5
 
         [HttpPut("{id}/{levelName}")]
         /// screens:
         /// 1. SpeechTherapist -> editLevel
-        public async Task Put(int id, int levelName)
+        public async Task<bool> Put(int id, int levelName)
         {
             //change level name
-            await wordBL.PutLevel(id, levelName);
+           return await wordBL.PutLevel(id, levelName);
         }
 
         [HttpPut]
@@ -117,6 +143,8 @@ namespace Project_server.Controllers
             await wordBL.DeleteLevel(levelId);
         }
 
+
+        
 
     }
 

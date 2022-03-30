@@ -93,7 +93,7 @@ namespace Project_server.Controllers
        public async Task UpdateRecording()
         {
             var file = Request.Form.Files[0];
-            string filePath = Path.GetFullPath("recordings/" + file.FileName);
+            string filePath = Path.GetFullPath("recordings/ofPatient/" + file.FileName);
 
             using (var stream = System.IO.File.Create(filePath))
             {
