@@ -19,7 +19,7 @@ namespace Project_server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+
     public class PatientController : ControllerBase
     {
 
@@ -46,8 +46,9 @@ namespace Project_server.Controllers
         // GET: api/<PatientController>
         /// screens:
         /// 1. admin
-        [HttpGet("{speechTherapistId}")]
+      
         // בשביל מסך המנהל- מקבל פרמטר של סוג הסינון, ומחזיר רשימה של כל המטופלים המותאמות לתנאי 
+        [HttpGet("{speechTherapistId}")]
 
         public async Task<List<PatientDTO>> Get(int speechTherapistId)
         {

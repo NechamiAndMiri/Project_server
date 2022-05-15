@@ -1,8 +1,11 @@
 ﻿
+using AutoMapper;
+using DTO;
 using Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,9 +15,11 @@ namespace DL
     public class LessonDL : ILessonDL
     {
         GeneralDBContext generalDBContext;
-        public LessonDL(GeneralDBContext generalDBContext)
+        IMapper mapper;
+        public LessonDL(GeneralDBContext generalDBContext,IMapper mapper)
         {
             this.generalDBContext =generalDBContext;
+            this.mapper = mapper;
         }
 
         public async Task<List<TblLesson>> GetAllLessons(int patientID)
@@ -27,10 +32,12 @@ namespace DL
             return await generalDBContext.TblWordsGivenToPractices.Where(w => w.LessonId == lessonID).Include(l=>l.Word).ToListAsync();
         }
 
-        public async Task PostLesson(TblLesson tblLesson)
+        public async Task<LessonDTO> PostLesson(TblLesson tblLesson)
         {
-            await generalDBContext.TblLessons.AddAsync(tblLesson);
+           TblLesson lesson= (await generalDBContext.TblLessons.AddAsync(tblLesson)).Entity;
             await generalDBContext.SaveChangesAsync();
+            lesson = (await generalDBContext.TblLessons.Where((l) => lesson.Id == l.Id).Include(l => l.DifficultyLevel).ThenInclude(d => d.PronunciationProblem).ToListAsync())[0];
+            return mapper.Map<TblLesson, LessonDTO>(lesson);
         }
 
         public async Task PostWordToLesson(TblWordsGivenToPractice WordGivenToPractice)
@@ -108,6 +115,11 @@ namespace DL
             {
                 return;
             }
+
+            string oldRecord = practiceWord.PatientRecording;
+            if (oldRecord.Length > 0)
+                File.Delete(Path.Combine(Directory.GetCurrentDirectory(), oldRecord));
+
             var x = generalDBContext.Entry(practiceWord);
             practiceWord.PatientRecording = filePath;
             x.CurrentValues.SetValues(practiceWord);

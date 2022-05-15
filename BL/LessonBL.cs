@@ -1,5 +1,6 @@
 ﻿
 using DL;
+using DTO;
 using Entities;
 using System;
 using System.Collections.Generic;
@@ -46,9 +47,9 @@ namespace BL
             return await lessonDL.GetLessonWords(lessonID);
         }
 
-        public async Task PostLesson(TblLesson tblLesson)
+        public async Task<LessonDTO> PostLesson(TblLesson tblLesson)
         {
-            await lessonDL.PostLesson(tblLesson);
+          return  await lessonDL.PostLesson(tblLesson);
         }
 
         public async Task PostWordToLesson(TblWordsGivenToPractice WordGivenToPractice)

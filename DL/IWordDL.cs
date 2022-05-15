@@ -15,6 +15,6 @@ namespace DL
         Task DeleteWord(int wordId);
         Task<bool> PutLevel(int id, int levelName);
         Task PutWord(TblWord tblWord);
-      
+        Task<string> getLocalRecordPath(int word_id);
     }
 }

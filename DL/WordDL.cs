@@ -125,5 +125,13 @@ namespace DL
             }
             return false;
         }
+
+        public async Task<string> getLocalRecordPath(int word_id)
+        {
+            var word = await generalDBContext.TblWords.FindAsync(word_id);
+            //var words = await generalDBContext.TblWords.Where(w=>w.WordText==wordText).ToListAsync();
+            string path = word.WordRecording;
+            return path;
+        }
     }
 }

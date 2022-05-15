@@ -72,7 +72,7 @@ namespace Project_server
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
             logger.LogInformation("server up!");
-            app.UseErrorMiddleware();
+            //app.UseErrorMiddleware();
             if (env.IsDevelopment())
             {
               //  app.UseDeveloperExceptionPage();

@@ -27,6 +27,9 @@ namespace Entities
         [JsonIgnore]
         public virtual TblWord Word { get; set; }
 
-    
+        public object Include(Func<object, object> p)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

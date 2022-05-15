@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using DTO;
+using Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace BL
     {
      Task<List<TblLesson>> GetAllLessons(int patientID);
      Task<List<TblWordsGivenToPractice>> GetLessonWords(int lessonID);
-     Task PostLesson(TblLesson tblLesson);
+     Task<LessonDTO> PostLesson(TblLesson tblLesson);
      Task PostWordToLesson(TblWordsGivenToPractice WordGivenToPractice);
      Task PutColIsCheckedAtLesson(int lessonId);
      Task PutColIsValidAtWordToPractice(int wordId);

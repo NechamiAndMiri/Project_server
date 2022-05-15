@@ -61,10 +61,10 @@ namespace Project_server.Controllers
 
         // POST api/<LessonController>
         [HttpPost]
-        public async Task Post([FromBody] TblLesson tblLesson)
+        public async Task<LessonDTO> Post([FromBody] TblLesson tblLesson)
         {
             //add the lesson
-            await lessonBL.PostLesson(tblLesson);
+            return await lessonBL.PostLesson(tblLesson);
         }
 
         /// screens:
@@ -93,7 +93,11 @@ namespace Project_server.Controllers
        public async Task UpdateRecording()
         {
             var file = Request.Form.Files[0];
-            string filePath = Path.GetFullPath("recordings/ofPatient/" + file.FileName);
+            //string filePath = Path.GetFullPath("recordings/ofPatient/" + file.FileName);
+            string filePath = Path.Combine("recordings", "ofPatient", file.FileName);
+
+            //כדי לשלוף את הנתיב המלא לכתוב כך:
+            //string t  = Path.Combine(Directory.GetCurrentDirectory(), filePath);
 
             using (var stream = System.IO.File.Create(filePath))
             {

@@ -64,6 +64,9 @@ namespace BL
             await wordDL.PutWord(tblWord);
         }
 
-
+        public async Task<string> getLocalRecordPath(int word_id)
+        {
+            return await wordDL.getLocalRecordPath(word_id);
+        }
     }
 }
