@@ -165,16 +165,20 @@ namespace Project_server.Controllers
                 await file.CopyToAsync(stream);
             }
 
-            //await lessonBL.PutWordRecording(wordId,filePath);
 
+            //case 1- update
             //מחיקת ההקלטה הישנה שהייתה למילה
-            //string oldRecord = speechTherapistWord.WordRecording;
-            //if (oldRecord.Length > 0)
-            //    File.Delete(Path.Combine(Directory.GetCurrentDirectory(), oldRecord));
-
+            string oldRecord = speechTherapistWord.WordRecording;
             speechTherapistWord.WordRecording = filePath;
+            if (oldRecord.Length > 0)
+            {
+                System.IO.File.Delete(Path.Combine(Directory.GetCurrentDirectory(), oldRecord));
+                await wordBL.PutWord(speechTherapistWord);
+            }
 
-            await wordBL.PostWord(speechTherapistWord);
+            else
+            //case 2- create
+            { await wordBL.PostWord(speechTherapistWord); }
         }
 
 
@@ -187,6 +191,34 @@ namespace Project_server.Controllers
         {
             //change level name
            return await wordBL.PutLevel(id, levelName);
+        }
+
+        [HttpPut("PutWordRecording")]
+        /// screens:
+        /// 1. SpeechTherapist -> editLevel
+        public async Task PutWord()
+        {
+
+            var file = Request.Form.Files[0];
+
+            //string filePath = Path.GetFullPath("recordings/words/" + file.FileName);
+            string filePath = Path.Combine("recordings", "words", file.FileName);
+
+            using (var stream = System.IO.File.Create(filePath))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+
+            //case 1- update
+            //מחיקת ההקלטה הישנה שהייתה למילה
+            string oldRecord = speechTherapistWord.WordRecording;
+            speechTherapistWord.WordRecording = filePath;
+            if (oldRecord.Length > 0)
+            {
+                System.IO.File.Delete(Path.Combine(Directory.GetCurrentDirectory(), oldRecord));
+                await wordBL.PutWord(speechTherapistWord);
+            }
         }
 
         [HttpPut]
