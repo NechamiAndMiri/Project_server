@@ -151,9 +151,8 @@ namespace Project_server.Controllers
         [HttpPost]
         [Route("PostWordRecording")]
         //public async Task UpdateRecording(int wordId)
-        public async Task UpdateRecording()
+        public async Task PostWoredRecording()
         {
-            //לבדוק את הפונקציה הזו טוב, האם צריך לחלק לשתיים עבור הפעם הראשונה שמכניסים הקלטה ועבור עדכון של מילה שלמה
 
             var file = Request.Form.Files[0];
 
@@ -165,20 +164,12 @@ namespace Project_server.Controllers
                 await file.CopyToAsync(stream);
             }
 
-
-            //case 1- update
-            //מחיקת ההקלטה הישנה שהייתה למילה
-            string oldRecord = speechTherapistWord.WordRecording;
+      
             speechTherapistWord.WordRecording = filePath;
-            if (oldRecord.Length > 0)
-            {
-                System.IO.File.Delete(Path.Combine(Directory.GetCurrentDirectory(), oldRecord));
-                await wordBL.PutWord(speechTherapistWord);
-            }
+        
 
-            else
-            //case 2- create
-            { await wordBL.PostWord(speechTherapistWord); }
+          // create
+            await wordBL.PostWord(speechTherapistWord);
         }
 
 
@@ -198,7 +189,6 @@ namespace Project_server.Controllers
         /// 1. SpeechTherapist -> editLevel
         public async Task PutWord()
         {
-
             var file = Request.Form.Files[0];
 
             //string filePath = Path.GetFullPath("recordings/words/" + file.FileName);
@@ -209,16 +199,14 @@ namespace Project_server.Controllers
                 await file.CopyToAsync(stream);
             }
 
-
-            //case 1- update
             //מחיקת ההקלטה הישנה שהייתה למילה
             string oldRecord = speechTherapistWord.WordRecording;
             speechTherapistWord.WordRecording = filePath;
             if (oldRecord.Length > 0)
             {
-                System.IO.File.Delete(Path.Combine(Directory.GetCurrentDirectory(), oldRecord));
-                await wordBL.PutWord(speechTherapistWord);
+                System.IO.File.Delete(Path.Combine(Directory.GetCurrentDirectory(), oldRecord)); 
             }
+            await wordBL.PutWord(speechTherapistWord);
         }
 
         [HttpPut]
@@ -240,6 +228,7 @@ namespace Project_server.Controllers
         public async Task DeleteWord(int wordId)
         {
             //delete the word from the level 
+           
             await wordBL.DeleteWord(wordId);
 
         }
