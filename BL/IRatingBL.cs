@@ -5,6 +5,6 @@ namespace BL
 {
     public interface IRatingBL
     {
-       public Task AddToContext(Rating rating);
+       public Task AddToContext(Rating rating);        
     }
 }

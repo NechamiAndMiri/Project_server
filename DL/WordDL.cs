@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,8 +71,13 @@ namespace DL
 
         public async Task DeleteWord(int wordId)
         {
+            
             //delete the word from the level 
             TblWord word = await generalDBContext.TblWords.FindAsync(wordId);
+            if (word.WordRecording.Length > 0)
+            {
+                System.IO.File.Delete(Path.Combine(Directory.GetCurrentDirectory(), word.WordRecording));
+            }
             generalDBContext.TblWords.Remove(word);
             await generalDBContext.SaveChangesAsync();
         }
@@ -108,12 +114,24 @@ namespace DL
             {
                 return;
             }
-            if (wordIsValid(tblWord.WordText,tblWord.DifficultyLevelId).Result)
-            {
-                generalDBContext.Entry(word).CurrentValues.SetValues(tblWord);
-                await generalDBContext.SaveChangesAsync();
-            }
-            
+             generalDBContext.Entry(word).CurrentValues.SetValues(tblWord);
+
+
+            // generalDBContext.TblWords.Remove(word);
+            await generalDBContext.SaveChangesAsync();
+
+
+            //if (wordIsValid(tblWord.WordText, tblWord.DifficultyLevelId).Result)
+            //{
+            //await generalDBContext.TblWords.AddAsync(tblWord);
+            //await generalDBContext.SaveChangesAsync();
+            //}
+            //else
+            //{
+            //    await generalDBContext.TblWords.AddAsync(word);
+            //    await generalDBContext.SaveChangesAsync();
+            //}
+
         }
 
         public async Task<bool> wordIsValid(string wordText, int levelId)
@@ -130,8 +148,12 @@ namespace DL
         {
             var word = await generalDBContext.TblWords.FindAsync(word_id);
             //var words = await generalDBContext.TblWords.Where(w=>w.WordText==wordText).ToListAsync();
-            string path = word.WordRecording;
-            return path;
+            if (word!=null)
+            {
+                string path = word.WordRecording;
+                return path;
+            }
+            return null;
         }
     }
 }
