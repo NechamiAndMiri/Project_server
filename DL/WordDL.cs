@@ -95,7 +95,7 @@ namespace DL
             }
             
             return false;
-        }
+        }  
 
         public async Task<bool> levelNameIsValid(int levelName,int speechTherapistId)
         {
