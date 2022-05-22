@@ -37,6 +37,8 @@ namespace Project_server
             CreateMap<TblWordsGivenToPractice, WordsGivenToPracticeDTO>()
                 .ForMember(dest=>dest.WordText,
                 opts=>opts.MapFrom(src=>src.Word.WordText))
+                .ForMember(dest => dest.WordId,
+                opts => opts.MapFrom(src => src.Word.Id))
                 .ForMember(dest => dest.WordRecording,
                 opts => opts.MapFrom(src => src.Word.WordRecording)).ReverseMap();
 
