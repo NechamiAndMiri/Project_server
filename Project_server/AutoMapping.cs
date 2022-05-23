@@ -31,6 +31,8 @@ namespace Project_server
             CreateMap<TblLesson, LessonDTO>()
           .ForMember(dest => dest.DifficultyLevelName,
                 opts => opts.MapFrom(src => src.DifficultyLevel.DifficultyLevel))
+           .ForMember(dest => dest.DifficultyLevelId,
+                opts => opts.MapFrom(src => src.DifficultyLevel.Id))
                 .ForMember(dest => dest.PronunciationProblemName,
                 opts => opts.MapFrom(src => src.DifficultyLevel.PronunciationProblem.ProblemName)).ReverseMap();
 

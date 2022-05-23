@@ -59,7 +59,7 @@ namespace Project_server
 
             services.AddScoped<IPasswordHashHelper, PasswordHashHelper>();
 
-            services.AddDbContext<GeneralDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("miri")));
+            services.AddDbContext<GeneralDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("miri_home")));
             services.AddResponseCaching();
             services.AddControllers();
             services.AddSwaggerGen(c =>
