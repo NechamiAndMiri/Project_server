@@ -71,8 +71,19 @@ namespace Project_server.Controllers
         /// 1. SpeechTherapist->patients->lessons->addwords2lesson
 
         // POST api/<LessonController>
-        [HttpPost("/PostWordToLesson")]
-        public async Task Post([FromBody] TblWordsGivenToPractice WordGivenToPractice)
+        [HttpPost("/PostWordsToLesson")]
+        public async Task Post([FromBody] List<WordsGivenToPracticeDTO> words)
+        {
+           var lessonWords = mapper.Map<List<WordsGivenToPracticeDTO>, List<TblWordsGivenToPractice>>(words);
+            for (int i = 0; i < lessonWords.Count; i++)
+            {
+                await PostWordToLesson(lessonWords[i]);
+            }
+        }
+
+
+        //[HttpPost("/PostWordToLesson")]
+        public async Task PostWordToLesson(TblWordsGivenToPractice WordGivenToPractice)
         {
             //add the word to the lesson
             await lessonBL.PostWordToLesson(WordGivenToPractice);
@@ -122,6 +133,18 @@ namespace Project_server.Controllers
         public async Task PutWordForLesson([FromBody] TblWordsGivenToPractice word)
         {
             await lessonBL.PutWordForLesson(word);
+        }
+
+        [HttpPut("{lessonId}/putWordsForLesson")]
+        public async Task putWordsForLesson(int lessonId,[FromBody] List<WordsGivenToPracticeDTO> words)
+        {
+            var lessonWords = mapper.Map<List<WordsGivenToPracticeDTO>, List<TblWordsGivenToPractice>>(words);
+            await lessonBL.DeleteAllWordsFromLesson(lessonId);
+            for (int i = 0; i<lessonWords.Count; i++)
+            {
+                await PostWordToLesson(lessonWords[i]);
+            }
+            
         }
 
         /// screens:

@@ -15,7 +15,8 @@ namespace BL
      Task PutColIsValidAtWordToPractice(int wordId);
      Task DeleteLesson(int lessonId);
      Task DeleteWordFromLesson(int wordId);
-     Task PutLesson(TblLesson tblLesson);
+        Task DeleteAllWordsFromLesson(int lessonId);
+        Task PutLesson(TblLesson tblLesson);
      Task PutWordForLesson(TblWordsGivenToPractice word);
         Task PutWordRecording(TblWordsGivenToPractice word, string filePath);
     }

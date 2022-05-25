@@ -19,5 +19,7 @@ namespace DL
       Task PutLesson(TblLesson tblLesson);
       Task PutWordForLesson(TblWordsGivenToPractice word);
         Task PutWordRecording(TblWordsGivenToPractice word, string filePath);
+
+        public Task DeleteAllWordsFromLesson(int lessonId);
     }
 }
