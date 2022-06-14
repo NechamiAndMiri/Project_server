@@ -19,5 +19,6 @@ namespace DL
       Task PutLesson(TblLesson tblLesson);
       Task PutWordForLesson(TblWordsGivenToPractice word);
         Task PutWordRecording(TblWordsGivenToPractice word, string filePath);
+        Task<string> getLocalPatientRecordPath(int wordId);
     }
 }

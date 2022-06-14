@@ -55,6 +55,21 @@ namespace Project_server.Controllers
             return mapper.Map<List<TblWordsGivenToPractice>, List<WordsGivenToPracticeDTO>>(words);
         }
 
+        // GET: api/<LessonController>
+        [HttpGet("getPatienRecording/{wordId}")]
+        public async Task<FileStreamResult> GetPatientRecording(int wordId)
+        {
+            Task<string> t = lessonBL .getLocalPatientRecordPath(wordId);
+            string filePath = t.Result;
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+            var ext = Path.GetExtension(filePath).ToLowerInvariant();
+            return File(memory,"audio/mpeg", true);
+        }
 
         /// screens:
         /// 1. SpeechTherapist->patients->lessons->add

@@ -78,6 +78,8 @@ namespace DL
             await generalDBContext.SaveChangesAsync();
         }
 
+  
+
         public async Task PutColIsValidAtWordToPractice(int wordId)
         {
             TblWordsGivenToPractice wordGivenToPractice = await generalDBContext.TblWordsGivenToPractices.FindAsync(wordId);
@@ -128,6 +130,17 @@ namespace DL
             //generalDBContext.Entry(practiceWord).CurrentValues.SetValues(word);
             await generalDBContext.SaveChangesAsync();
             
+        }
+
+        public async Task<string> getLocalPatientRecordPath(int wordId)
+        {
+            var word = await generalDBContext.TblWordsGivenToPractices.FindAsync(wordId);
+            if (word != null)
+            {
+                string path = word.PatientRecording;
+                return path;
+            }
+            return null;
         }
     }
 }
