@@ -94,6 +94,10 @@ namespace BL
         {
             return await lessonDL.getLocalPatientRecordPath(wordId);
         }
+        public async Task DeleteAllWordsFromLesson(int lessonId)
+        {
+            await lessonDL.DeleteAllWordsFromLesson(lessonId);
+        }
     }
 }
 
