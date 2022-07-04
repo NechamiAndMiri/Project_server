@@ -70,7 +70,7 @@ namespace Project_server.Controllers
             var ext = Path.GetExtension(filePath).ToLowerInvariant();
             return File(memory,"audio/mpeg", true);
         }
-
+          
         /// screens:
         /// 1. SpeechTherapist->patients->lessons->add
 
