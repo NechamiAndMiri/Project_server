@@ -59,7 +59,7 @@ namespace Project_server.Controllers
         [HttpGet("getPatienRecording/{wordId}")]
         public async Task<FileStreamResult> GetPatientRecording(int wordId)
         {
-            Task<string> t = lessonBL .getLocalPatientRecordPath(wordId);
+            Task<string> t = lessonBL.getLocalPatientRecordPath(wordId);
             string filePath = t.Result;
             var memory = new MemoryStream();
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -68,9 +68,9 @@ namespace Project_server.Controllers
             }
             memory.Position = 0;
             var ext = Path.GetExtension(filePath).ToLowerInvariant();
-            return File(memory,"audio/mpeg", true);
+            return File(memory, "audio/mpeg", true);
         }
-          
+
         /// screens:
         /// 1. SpeechTherapist->patients->lessons->add
 
@@ -86,10 +86,10 @@ namespace Project_server.Controllers
         /// 1. SpeechTherapist->patients->lessons->addwords2lesson
 
         // POST api/<LessonController>
-        [HttpPost("/PostWordsToLesson")]
+        [HttpPost("PostWordsToLesson")]
         public async Task Post([FromBody] List<WordsGivenToPracticeDTO> words)
         {
-           var lessonWords = mapper.Map<List<WordsGivenToPracticeDTO>, List<TblWordsGivenToPractice>>(words);
+            var lessonWords = mapper.Map<List<WordsGivenToPracticeDTO>, List<TblWordsGivenToPractice>>(words);
             for (int i = 0; i < lessonWords.Count; i++)
             {
                 await PostWordToLesson(lessonWords[i]);
@@ -97,7 +97,7 @@ namespace Project_server.Controllers
         }
 
 
-        //[HttpPost("/PostWordToLesson")]
+        [HttpPost("PostWordToLesson")]
         public async Task PostWordToLesson(TblWordsGivenToPractice WordGivenToPractice)
         {
             //add the word to the lesson
@@ -111,12 +111,12 @@ namespace Project_server.Controllers
         public void UpdateRecordingWord([FromBody] WordsGivenToPracticeDTO word)
         {
 
-            pratciceWord =  mapper.Map<WordsGivenToPracticeDTO, TblWordsGivenToPractice>(word);
+            pratciceWord = mapper.Map<WordsGivenToPracticeDTO, TblWordsGivenToPractice>(word);
         }
         [HttpPut]
         [Route("UpdateRecording")]
         //public async Task UpdateRecording(int wordId)
-       public async Task UpdateRecording()
+        public async Task UpdateRecording()
         {
             var file = Request.Form.Files[0];
             //string filePath = Path.GetFullPath("recordings/ofPatient/" + file.FileName);
@@ -134,32 +134,42 @@ namespace Project_server.Controllers
             await lessonBL.PutWordRecording(pratciceWord, filePath);
         }
 
-        
 
-            // PUT api/<LessonController>/5
-            [HttpPut("/lesson")]
-        public async Task PutLesson([FromBody] TblLesson tblLesson)
+
+        // PUT api/<LessonController>/5
+        [HttpPut("lesson")]
+        public async Task PutLesson([FromBody] LessonDTO lesson)
         {
+            var tblLesson = mapper.Map<LessonDTO, TblLesson>(lesson);
             await lessonBL.PutLesson(tblLesson);
         }
 
         // PUT api/<LessonController>/5
-        [HttpPut("/word")]
-        public async Task PutWordForLesson([FromBody] TblWordsGivenToPractice word)
-        {
-            await lessonBL.PutWordForLesson(word);
-        }
+        //[HttpPut("/word")]
+        //public async Task PutWordForLesson([FromBody] TblWordsGivenToPractice word)
+        //{
+        //    await lessonBL.PutWordForLesson(word);
+        //}
 
         [HttpPut("{lessonId}/putWordsForLesson")]
-        public async Task putWordsForLesson(int lessonId,[FromBody] List<WordsGivenToPracticeDTO> words)
+        public async Task putWordsForLesson(int lessonId, [FromBody] List<WordsGivenToPracticeDTO> words)
         {
-            var lessonWords = mapper.Map<List<WordsGivenToPracticeDTO>, List<TblWordsGivenToPractice>>(words);
-            await lessonBL.DeleteAllWordsFromLesson(lessonId);
-            for (int i = 0; i<lessonWords.Count; i++)
+            try
             {
-                await PostWordToLesson(lessonWords[i]);
+                var lessonWords = mapper.Map<List<WordsGivenToPracticeDTO>, List<TblWordsGivenToPractice>>(words);
+                await lessonBL.DeleteAllWordsFromLesson(lessonId);
+                for (int i = 0; i < lessonWords.Count; i++)
+                {
+                    await PostWordToLesson(lessonWords[i]);
+                }
             }
-            
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+           
+
         }
 
         /// screens:
