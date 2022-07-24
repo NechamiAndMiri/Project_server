@@ -77,8 +77,6 @@ namespace Project_server.Controllers
         {
             await patientBL.PostPatient(patient.Patient);
             await userBL.PostUser(patient.User);
-
-
         }
         /// screens:
         /// 1. SpeechTherapist -> patients->edit
