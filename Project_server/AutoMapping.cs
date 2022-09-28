@@ -13,7 +13,8 @@ namespace Project_server
     {
         public AutoMapping()
         {
-           CreateMap<TblMessage, MessageDTO>().ForMember(dest => dest.FirstName,
+           CreateMap<TblMessage, MessageDTO>()
+               .ForMember(dest => dest.FirstName,
                        opts => opts.MapFrom(src => src.Patient.User.FirstName))
                        .ForMember(dest => dest.LastName,
                        opts => opts.MapFrom(src => src.Patient.User.LastName))

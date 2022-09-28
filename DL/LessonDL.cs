@@ -142,6 +142,7 @@ namespace DL
             var word = await generalDBContext.TblWordsGivenToPractices.FindAsync(wordId);
             if (word != null)
             {
+                
                 string path = word.PatientRecording;
                 return path;
             }

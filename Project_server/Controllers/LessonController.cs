@@ -59,6 +59,7 @@ namespace Project_server.Controllers
         [HttpGet("getPatienRecording/{wordId}")]
         public async Task<FileStreamResult> GetPatientRecording(int wordId)
         {
+
             Task<string> t = lessonBL.getLocalPatientRecordPath(wordId);
             string filePath = t.Result;
             var memory = new MemoryStream();
@@ -68,6 +69,8 @@ namespace Project_server.Controllers
             }
             memory.Position = 0;
             var ext = Path.GetExtension(filePath).ToLowerInvariant();
+            if (ext == "")
+                return null;
             return File(memory, "audio/mpeg", true);
         }
 

@@ -62,7 +62,8 @@ namespace Project_server.Controllers
         public async Task<FileStreamResult> GetRecord(int word_id, string wordText)
         {
             string recordName = wordText + "_record";
-            string localRecordPath;
+          
+           // string localRecordPath;
             // int fileSize;
 
             Task<string> t = wordBL.getLocalRecordPath(word_id);
