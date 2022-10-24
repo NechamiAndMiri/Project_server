@@ -78,6 +78,8 @@ namespace DL
             await generalDBContext.SaveChangesAsync();
         }
 
+  
+
         public async Task PutColIsValidAtWordToPractice(int wordId)
         {
             TblWordsGivenToPractice wordGivenToPractice = await generalDBContext.TblWordsGivenToPractices.FindAsync(wordId);
@@ -90,18 +92,23 @@ namespace DL
         public async Task DeleteLesson(int lessonId)
         {
             TblLesson lesson = await generalDBContext.TblLessons.FindAsync(lessonId);
-            foreach (var word in generalDBContext.TblWordsGivenToPractices)
-            {
-                if (word.LessonId== lessonId)
-                {
-                    DeleteWordFromLesson(word.Id);
-                }
-            }
+            await DeleteAllWordsFromLesson(lessonId);
                 generalDBContext.TblLessons.Remove(lesson);
             await generalDBContext.SaveChangesAsync();
         }
 
-        public async Task DeleteWordFromLesson(int wordId)
+        public async Task DeleteAllWordsFromLesson(int lessonId)
+        {
+            foreach (var word in generalDBContext.TblWordsGivenToPractices)
+            {
+                if (word.LessonId == lessonId)
+                {
+                    await DeleteWordFromLesson(word.Id);
+                }
+            }
+        }
+
+            public async Task DeleteWordFromLesson(int wordId)
         {
             TblWordsGivenToPractice wordGivenToPractice = await generalDBContext.TblWordsGivenToPractices.FindAsync(wordId);
             generalDBContext.TblWordsGivenToPractices.Remove(wordGivenToPractice);
@@ -128,6 +135,18 @@ namespace DL
             //generalDBContext.Entry(practiceWord).CurrentValues.SetValues(word);
             await generalDBContext.SaveChangesAsync();
             
+        }
+
+        public async Task<string> getLocalPatientRecordPath(int wordId)
+        {
+            var word = await generalDBContext.TblWordsGivenToPractices.FindAsync(wordId);
+            if (word != null)
+            {
+                
+                string path = word.PatientRecording;
+                return path;
+            }
+            return null;
         }
     }
 }

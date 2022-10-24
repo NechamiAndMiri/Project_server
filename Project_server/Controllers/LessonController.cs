@@ -55,6 +55,24 @@ namespace Project_server.Controllers
             return mapper.Map<List<TblWordsGivenToPractice>, List<WordsGivenToPracticeDTO>>(words);
         }
 
+        // GET: api/<LessonController>
+        [HttpGet("getPatienRecording/{wordId}")]
+        public async Task<FileStreamResult> GetPatientRecording(int wordId)
+        {
+
+            Task<string> t = lessonBL.getLocalPatientRecordPath(wordId);
+            string filePath = t.Result;
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+            var ext = Path.GetExtension(filePath).ToLowerInvariant();
+            if (ext == "")
+                return null;
+            return File(memory, "audio/mpeg", true);
+        }
 
         /// screens:
         /// 1. SpeechTherapist->patients->lessons->add
@@ -71,8 +89,19 @@ namespace Project_server.Controllers
         /// 1. SpeechTherapist->patients->lessons->addwords2lesson
 
         // POST api/<LessonController>
-        [HttpPost("/PostWordToLesson")]
-        public async Task Post([FromBody] TblWordsGivenToPractice WordGivenToPractice)
+        [HttpPost("PostWordsToLesson")]
+        public async Task Post([FromBody] List<WordsGivenToPracticeDTO> words)
+        {
+            var lessonWords = mapper.Map<List<WordsGivenToPracticeDTO>, List<TblWordsGivenToPractice>>(words);
+            for (int i = 0; i < lessonWords.Count; i++)
+            {
+                await PostWordToLesson(lessonWords[i]);
+            }
+        }
+
+
+        [HttpPost("PostWordToLesson")]
+        public async Task PostWordToLesson(TblWordsGivenToPractice WordGivenToPractice)
         {
             //add the word to the lesson
             await lessonBL.PostWordToLesson(WordGivenToPractice);
@@ -85,12 +114,12 @@ namespace Project_server.Controllers
         public void UpdateRecordingWord([FromBody] WordsGivenToPracticeDTO word)
         {
 
-            pratciceWord =  mapper.Map<WordsGivenToPracticeDTO, TblWordsGivenToPractice>(word);
+            pratciceWord = mapper.Map<WordsGivenToPracticeDTO, TblWordsGivenToPractice>(word);
         }
         [HttpPut]
         [Route("UpdateRecording")]
         //public async Task UpdateRecording(int wordId)
-       public async Task UpdateRecording()
+        public async Task UpdateRecording()
         {
             var file = Request.Form.Files[0];
             //string filePath = Path.GetFullPath("recordings/ofPatient/" + file.FileName);
@@ -108,20 +137,42 @@ namespace Project_server.Controllers
             await lessonBL.PutWordRecording(pratciceWord, filePath);
         }
 
-        
 
-            // PUT api/<LessonController>/5
-            [HttpPut("/lesson")]
-        public async Task PutLesson([FromBody] TblLesson tblLesson)
+
+        // PUT api/<LessonController>/5
+        [HttpPut("lesson")]
+        public async Task PutLesson([FromBody] LessonDTO lesson)
         {
+            var tblLesson = mapper.Map<LessonDTO, TblLesson>(lesson);
             await lessonBL.PutLesson(tblLesson);
         }
 
         // PUT api/<LessonController>/5
-        [HttpPut("/word")]
-        public async Task PutWordForLesson([FromBody] TblWordsGivenToPractice word)
+        //[HttpPut("/word")]
+        //public async Task PutWordForLesson([FromBody] TblWordsGivenToPractice word)
+        //{
+        //    await lessonBL.PutWordForLesson(word);
+        //}
+
+        [HttpPut("{lessonId}/putWordsForLesson")]
+        public async Task putWordsForLesson(int lessonId, [FromBody] List<WordsGivenToPracticeDTO> words)
         {
-            await lessonBL.PutWordForLesson(word);
+            try
+            {
+                var lessonWords = mapper.Map<List<WordsGivenToPracticeDTO>, List<TblWordsGivenToPractice>>(words);
+                await lessonBL.DeleteAllWordsFromLesson(lessonId);
+                for (int i = 0; i < lessonWords.Count; i++)
+                {
+                    await PostWordToLesson(lessonWords[i]);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+           
+
         }
 
         /// screens:

@@ -62,7 +62,8 @@ namespace Project_server.Controllers
         public async Task<FileStreamResult> GetRecord(int word_id, string wordText)
         {
             string recordName = wordText + "_record";
-            string localRecordPath;
+          
+           // string localRecordPath;
             // int fileSize;
 
             Task<string> t = wordBL.getLocalRecordPath(word_id);
@@ -151,9 +152,8 @@ namespace Project_server.Controllers
         [HttpPost]
         [Route("PostWordRecording")]
         //public async Task UpdateRecording(int wordId)
-        public async Task UpdateRecording()
+        public async Task PostWoredRecording()
         {
-            //לבדוק את הפונקציה הזו טוב, האם צריך לחלק לשתיים עבור הפעם הראשונה שמכניסים הקלטה ועבור עדכון של מילה שלמה
 
             var file = Request.Form.Files[0];
 
@@ -165,15 +165,11 @@ namespace Project_server.Controllers
                 await file.CopyToAsync(stream);
             }
 
-            //await lessonBL.PutWordRecording(wordId,filePath);
-
-            //מחיקת ההקלטה הישנה שהייתה למילה
-            //string oldRecord = speechTherapistWord.WordRecording;
-            //if (oldRecord.Length > 0)
-            //    File.Delete(Path.Combine(Directory.GetCurrentDirectory(), oldRecord));
-
+      
             speechTherapistWord.WordRecording = filePath;
+        
 
+          // create
             await wordBL.PostWord(speechTherapistWord);
         }
 
@@ -187,6 +183,31 @@ namespace Project_server.Controllers
         {
             //change level name
            return await wordBL.PutLevel(id, levelName);
+        }
+
+        [HttpPut("PutWordRecording")]
+        /// screens:
+        /// 1. SpeechTherapist -> editLevel
+        public async Task PutWord()
+        {
+            var file = Request.Form.Files[0];
+
+            //string filePath = Path.GetFullPath("recordings/words/" + file.FileName);
+            string filePath = Path.Combine("recordings", "words", file.FileName);
+
+            using (var stream = System.IO.File.Create(filePath))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            //מחיקת ההקלטה הישנה שהייתה למילה
+            string oldRecord = speechTherapistWord.WordRecording;
+            speechTherapistWord.WordRecording = filePath;
+            if (oldRecord.Length > 0)
+            {
+                System.IO.File.Delete(Path.Combine(Directory.GetCurrentDirectory(), oldRecord)); 
+            }
+            await wordBL.PutWord(speechTherapistWord);
         }
 
         [HttpPut]
@@ -208,6 +229,7 @@ namespace Project_server.Controllers
         public async Task DeleteWord(int wordId)
         {
             //delete the word from the level 
+           
             await wordBL.DeleteWord(wordId);
 
         }

@@ -90,7 +90,14 @@ namespace BL
             await lessonDL.DeleteWordFromLesson(wordId);
         }
 
-       
+        public async Task<string> getLocalPatientRecordPath(int wordId)
+        {
+            return await lessonDL.getLocalPatientRecordPath(wordId);
+        }
+        public async Task DeleteAllWordsFromLesson(int lessonId)
+        {
+            await lessonDL.DeleteAllWordsFromLesson(lessonId);
+        }
     }
 }
 

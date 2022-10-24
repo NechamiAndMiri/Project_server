@@ -84,9 +84,6 @@ namespace Project_server
 
             app.UseRouting();
 
-           
-
-        
   
             app.UseResponseCaching();
 

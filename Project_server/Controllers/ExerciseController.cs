@@ -47,7 +47,7 @@ public class ExerciseController : ControllerBase
     // POST api/<ExerciseController>
     /// screens:
     /// 1. SpeechTherapist -> Level -> addExercises
-    [HttpPost("/PostExercise")]
+    [HttpPost("PostExercise")]
     public async Task Post( [FromBody] TblExercise exercise)
     {
         //add new Exercise to this level
@@ -55,7 +55,7 @@ public class ExerciseController : ControllerBase
     }
     /// screens:
     /// 1. SpeechTherapist -> Level -> Exercise ->addWord
-    [HttpPost("/AddWordPerExercise")]
+    [HttpPost("AddWordPerExercise")]
     public async Task PostWordPerExercise([FromBody] TblWordsPerExercise wordPerExercise)
     {
         //add new word to this Exercises
@@ -65,7 +65,7 @@ public class ExerciseController : ControllerBase
     // PUT api/<ExerciseController>/5
     /// screens:
     /// 1. SpeechTherapist -> Level -> editExercises
-    [HttpPut("/PutExercise")]
+    [HttpPut("PutExercise")]
     public async Task Put([FromBody] TblExercise exercise)
     {
         // change Exercise
