@@ -40,7 +40,7 @@ namespace Project_server.Controllers
             //return current user
             UserDTO userDTO;
             
-              TblUser user= await userBL.getUser(logInUser.FirstName,logInUser.LastName,logInUser.Password);
+              TblUser user= await userBL.getUser(logInUser.Email,logInUser.Password);
             if (user.PermissionLevelId == 1)
             {
                 userDTO = new UserDTO();
