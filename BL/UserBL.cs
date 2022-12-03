@@ -25,9 +25,9 @@ namespace BL
             _configuration = configuration;
         }
 
-        public async Task<TblUser> getUser(string firstName, string lastName, string password)
+        public async Task<TblUser> getUser(string email, string password)
         {
-            TblUser user= await userDL.getUser(firstName, lastName, password);
+            TblUser user= await userDL.getUser(email, password);
             //if (user == null) return null;
             //// authentication successful so generate jwt token
             //var tokenHandler = new JwtSecurityTokenHandler();
