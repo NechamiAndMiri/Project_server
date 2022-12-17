@@ -148,6 +148,35 @@ namespace DL
             }
             return null;
         }
+
+        public async Task UpdateWordsForLesson(List<TblWordsGivenToPractice> wordsGivenToPractice)
+        {
+            List<TblWordsGivenToPractice> previousWords = null;
+            if (wordsGivenToPractice.Any())
+            {
+                generalDBContext.TblWordsGivenToPractices.UpdateRange(wordsGivenToPractice);
+                await generalDBContext.SaveChangesAsync();
+            }
+            //    List<TblWordsGivenToPractice> previousWords = null;
+            //    if (wordsGivenToPractice.Any())
+            //    {
+            //        previousWords = await generalDBContext.TblWordsGivenToPractices.Where(w => w.LessonId == wordsGivenToPractice[0].LessonId).Select(w => new TblWordsGivenToPractice() 
+            //        {   Id = 0 ,
+            //            LessonId = w.LessonId,
+            //            WordId = w.WordId,
+            //            PatientRecording = w.PatientRecording,
+            //            Score = w.Score,
+            //            IsValid = w.IsValid,
+            //            Lesson = w.Lesson,
+            //            Word = w.Word
+            //    }).ToListAsync();
+            //        generalDBContext.TblWordsGivenToPractices.RemoveRange(previousWords);
+            //        await generalDBContext.SaveChangesAsync();
+
+            //    }
+            //    generalDBContext.TblWordsGivenToPractices.AddRange(wordsGivenToPractice);
+            //       await generalDBContext.SaveChangesAsync();
+        }
     }
 }
 

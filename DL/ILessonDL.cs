@@ -22,5 +22,6 @@ namespace DL
         Task<string> getLocalPatientRecordPath(int wordId);
 
         public Task DeleteAllWordsFromLesson(int lessonId);
+        Task UpdateWordsForLesson(List<TblWordsGivenToPractice> wordsGivenToPractice);
     }
 }

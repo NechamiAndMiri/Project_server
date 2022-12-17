@@ -17,10 +17,10 @@ namespace DL
             this.generalDBContext = generalDBContext;
         }
 
-        public async Task<TblUser> getUser(string firstName,string lastName, string password)
+        public async Task<TblUser> getUser(string email, string password)
         {
         
-          List<TblUser> l= await  generalDBContext.TblUsers.Where(x=>x.Password==password&&x.FirstName==firstName&&x.LastName==lastName).ToListAsync();
+          List<TblUser> l= await  generalDBContext.TblUsers.Where(x=>x.Password==password&&x.Email==email).ToListAsync();
             return l[0];
         }
 

@@ -154,17 +154,13 @@ namespace Project_server.Controllers
         //    await lessonBL.PutWordForLesson(word);
         //}
 
-        [HttpPut("{lessonId}/putWordsForLesson")]
-        public async Task putWordsForLesson(int lessonId, [FromBody] List<WordsGivenToPracticeDTO> words)
+        [HttpPut("putWordsForLesson")]
+        public async Task putWordsForLesson([FromBody] List<WordsGivenToPracticeDTO> words)
         {
             try
             {
                 var lessonWords = mapper.Map<List<WordsGivenToPracticeDTO>, List<TblWordsGivenToPractice>>(words);
-                await lessonBL.DeleteAllWordsFromLesson(lessonId);
-                for (int i = 0; i < lessonWords.Count; i++)
-                {
-                    await PostWordToLesson(lessonWords[i]);
-                }
+                await lessonBL.UpdateWordsForLesson(lessonWords);
             }
             catch (Exception ex)
             {
