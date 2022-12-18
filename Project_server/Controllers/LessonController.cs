@@ -139,7 +139,6 @@ namespace Project_server.Controllers
 
 
 
-        // PUT api/<LessonController>/5
         [HttpPut("lesson")]
         public async Task PutLesson([FromBody] LessonDTO lesson)
         {
@@ -147,13 +146,7 @@ namespace Project_server.Controllers
             await lessonBL.PutLesson(tblLesson);
         }
 
-        // PUT api/<LessonController>/5
-        //[HttpPut("/word")]
-        //public async Task PutWordForLesson([FromBody] TblWordsGivenToPractice word)
-        //{
-        //    await lessonBL.PutWordForLesson(word);
-        //}
-
+     
         [HttpPut("putWordsForLesson")]
         public async Task putWordsForLesson([FromBody] List<WordsGivenToPracticeDTO> words)
         {

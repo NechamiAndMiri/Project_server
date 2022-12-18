@@ -16,25 +16,25 @@ namespace DL
     {
         GeneralDBContext generalDBContext;
         IMapper mapper;
-        public LessonDL(GeneralDBContext generalDBContext,IMapper mapper)
+        public LessonDL(GeneralDBContext generalDBContext, IMapper mapper)
         {
-            this.generalDBContext =generalDBContext;
+            this.generalDBContext = generalDBContext;
             this.mapper = mapper;
         }
 
         public async Task<List<TblLesson>> GetAllLessons(int patientID)
         {
-            return await generalDBContext.TblLessons.Where(l => l.PatientId == patientID).Include(l=>l.DifficultyLevel).ThenInclude(d=>d.PronunciationProblem).ToListAsync();//.Include(x => ((TblWordsGivenToPractice)x).Score)
+            return await generalDBContext.TblLessons.Where(l => l.PatientId == patientID).Include(l => l.DifficultyLevel).ThenInclude(d => d.PronunciationProblem).ToListAsync();//.Include(x => ((TblWordsGivenToPractice)x).Score)
         }
 
         public async Task<List<TblWordsGivenToPractice>> GetLessonWords(int lessonID)
         {
-            return await generalDBContext.TblWordsGivenToPractices.Where(w => w.LessonId == lessonID).Include(l=>l.Word).ToListAsync();
+            return await generalDBContext.TblWordsGivenToPractices.Where(w => w.LessonId == lessonID).Include(l => l.Word).ToListAsync();
         }
 
         public async Task<LessonDTO> PostLesson(TblLesson tblLesson)
         {
-           TblLesson lesson= (await generalDBContext.TblLessons.AddAsync(tblLesson)).Entity;
+            TblLesson lesson = (await generalDBContext.TblLessons.AddAsync(tblLesson)).Entity;
             await generalDBContext.SaveChangesAsync();
             lesson = (await generalDBContext.TblLessons.Where((l) => lesson.Id == l.Id).Include(l => l.DifficultyLevel).ThenInclude(d => d.PronunciationProblem).ToListAsync())[0];
             return mapper.Map<TblLesson, LessonDTO>(lesson);
@@ -78,7 +78,7 @@ namespace DL
             await generalDBContext.SaveChangesAsync();
         }
 
-  
+
 
         public async Task PutColIsValidAtWordToPractice(int wordId)
         {
@@ -93,7 +93,7 @@ namespace DL
         {
             TblLesson lesson = await generalDBContext.TblLessons.FindAsync(lessonId);
             await DeleteAllWordsFromLesson(lessonId);
-                generalDBContext.TblLessons.Remove(lesson);
+            generalDBContext.TblLessons.Remove(lesson);
             await generalDBContext.SaveChangesAsync();
         }
 
@@ -108,7 +108,7 @@ namespace DL
             }
         }
 
-            public async Task DeleteWordFromLesson(int wordId)
+        public async Task DeleteWordFromLesson(int wordId)
         {
             TblWordsGivenToPractice wordGivenToPractice = await generalDBContext.TblWordsGivenToPractices.FindAsync(wordId);
             generalDBContext.TblWordsGivenToPractices.Remove(wordGivenToPractice);
@@ -134,7 +134,7 @@ namespace DL
 
             //generalDBContext.Entry(practiceWord).CurrentValues.SetValues(word);
             await generalDBContext.SaveChangesAsync();
-            
+
         }
 
         public async Task<string> getLocalPatientRecordPath(int wordId)
@@ -142,7 +142,7 @@ namespace DL
             var word = await generalDBContext.TblWordsGivenToPractices.FindAsync(wordId);
             if (word != null)
             {
-                
+
                 string path = word.PatientRecording;
                 return path;
             }
@@ -151,31 +151,22 @@ namespace DL
 
         public async Task UpdateWordsForLesson(List<TblWordsGivenToPractice> wordsGivenToPractice)
         {
-            List<TblWordsGivenToPractice> previousWords = null;
-            if (wordsGivenToPractice.Any())
+            try
             {
-                generalDBContext.TblWordsGivenToPractices.UpdateRange(wordsGivenToPractice);
-                await generalDBContext.SaveChangesAsync();
-            }
-            //    List<TblWordsGivenToPractice> previousWords = null;
-            //    if (wordsGivenToPractice.Any())
-            //    {
-            //        previousWords = await generalDBContext.TblWordsGivenToPractices.Where(w => w.LessonId == wordsGivenToPractice[0].LessonId).Select(w => new TblWordsGivenToPractice() 
-            //        {   Id = 0 ,
-            //            LessonId = w.LessonId,
-            //            WordId = w.WordId,
-            //            PatientRecording = w.PatientRecording,
-            //            Score = w.Score,
-            //            IsValid = w.IsValid,
-            //            Lesson = w.Lesson,
-            //            Word = w.Word
-            //    }).ToListAsync();
-            //        generalDBContext.TblWordsGivenToPractices.RemoveRange(previousWords);
-            //        await generalDBContext.SaveChangesAsync();
+                if (wordsGivenToPractice.Any())
+                {
+                    generalDBContext.TblWordsGivenToPractices.UpdateRange(wordsGivenToPractice);
 
-            //    }
-            //    generalDBContext.TblWordsGivenToPractices.AddRange(wordsGivenToPractice);
-            //       await generalDBContext.SaveChangesAsync();
+                    await generalDBContext.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                {
+                    throw;
+                }
+
+            }
         }
     }
 }

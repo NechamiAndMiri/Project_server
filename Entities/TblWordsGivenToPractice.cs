@@ -25,9 +25,9 @@ namespace Entities
         public int? Score { get; set; }
         public bool? IsValid { get; set; }
 
-        
+        [JsonIgnore]
         public virtual TblLesson Lesson { get; set; }
-      
+        [JsonIgnore]
         public virtual TblWord Word { get; set; }
 
     }
