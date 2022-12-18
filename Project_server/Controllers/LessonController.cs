@@ -47,7 +47,7 @@ namespace Project_server.Controllers
         /// 1. SpeechTherapist->patients->lessons->show
         /// 2.patient->lesson
         // GET: api/<LessonController>
-        [HttpGet("get_all_WORDS_FOR_lesson/{lessonID}")]
+        [HttpGet("getLessonWords/{lessonID}")]
         public async Task<List<WordsGivenToPracticeDTO>> GetLessonWords(int lessonID)
         {
             // get all WORDS FOR lesson
@@ -139,7 +139,7 @@ namespace Project_server.Controllers
 
 
 
-        [HttpPut("lesson")]
+        [HttpPut]
         public async Task PutLesson([FromBody] LessonDTO lesson)
         {
             var tblLesson = mapper.Map<LessonDTO, TblLesson>(lesson);
