@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 #nullable disable
@@ -8,15 +10,16 @@ namespace Entities
 {
     public partial class TblWordsGivenToPractice
     {
-        //public TblWordsGivenToPractice(TblWordsGivenToPractice otherWordGivenTo)
-        //{
-        //    this.Id = otherWordGivenTo.Id;
-        //    this.IsValid = otherWordGivenTo.IsValid;
-        //    this.
+     
 
-        //}
-          public int Id { get; set; }
+
+        [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
+        [ForeignKey("TblLesson")]
         public int LessonId { get; set; }
+        [ForeignKey("Word")]
         public int WordId { get; set; }
         public string PatientRecording { get; set; }
         public int? Score { get; set; }
@@ -27,9 +30,5 @@ namespace Entities
         [JsonIgnore]
         public virtual TblWord Word { get; set; }
 
-        public object Include(Func<object, object> p)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

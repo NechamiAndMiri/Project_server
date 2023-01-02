@@ -59,7 +59,7 @@ namespace Project_server
 
             services.AddScoped<IPasswordHashHelper, PasswordHashHelper>();
 
-            services.AddDbContext<GeneralDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("nechami")));
+            services.AddDbContext<GeneralDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("default")));
             services.AddResponseCaching();
             services.AddControllers();
             services.AddSwaggerGen(c =>

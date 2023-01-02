@@ -8,7 +8,11 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.12" />
   </ItemGroup>
 
-  <ItemGroup>
+	<PropertyGroup>
+		<RestoreFallbackFolders>clear</RestoreFallbackFolders>
+	</PropertyGroup>
+
+	<ItemGroup>
     <ProjectReference Include="..\DL\DL.csproj" />
     <ProjectReference Include="..\DTO\DTO.csproj" />
     <ProjectReference Include="..\Entities\Entities.csproj" />

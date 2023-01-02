@@ -11,6 +11,8 @@ namespace BL
      Task<List<TblWordsGivenToPractice>> GetLessonWords(int lessonID);
      Task<LessonDTO> PostLesson(TblLesson tblLesson);
      Task PostWordToLesson(TblWordsGivenToPractice WordGivenToPractice);
+     Task UpdateWordsForLesson(List<TblWordsGivenToPractice> wordsGivenToPractice);
+
      Task PutColIsCheckedAtLesson(int lessonId);
      Task PutColIsValidAtWordToPractice(int wordId);
      Task DeleteLesson(int lessonId);
