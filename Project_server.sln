@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project_server", "Project_server\Project_server.csproj", "{C91C37FE-9759-40D8-AD0E-D6267B29F3BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clear-Talk", "Project_server\Clear-Talk.csproj", "{C91C37FE-9759-40D8-AD0E-D6267B29F3BC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DL", "DL\DL.csproj", "{44B14727-CFFC-4227-9C2E-9216D6C83EBC}"
 EndProject
