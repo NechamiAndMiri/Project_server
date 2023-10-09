@@ -19,7 +19,11 @@ namespace DL
 
         public async Task<List<TblDifficultyLevel>> GetAllLevels(int problemsTypeId, int speechTherapistId)
         {
-           return await generalDBContext.TblDifficultyLevels.Where(l => l.PronunciationProblemId == problemsTypeId && l.SpeechTherapistId==speechTherapistId).ToListAsync();
+           return await 
+                generalDBContext
+                .TblDifficultyLevels
+                    .Where(l => l.PronunciationProblemId == problemsTypeId && l.SpeechTherapistId==speechTherapistId)
+                    .ToListAsync();
         }
 
         public async Task<List<TblPronunciationProblemsType>> GetAllPronunciationProblemsTypes()
