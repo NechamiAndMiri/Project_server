@@ -12,7 +12,7 @@ namespace BL
      Task<LessonDTO> PostLesson(TblLesson tblLesson);
      Task PostWordToLesson(TblWordsGivenToPractice WordGivenToPractice);
      Task UpdateWordsForLesson(List<TblWordsGivenToPractice> wordsGivenToPractice);
-
+        Task SaveLesson(int LessonId);
      Task PutColIsCheckedAtLesson(int lessonId);
      Task PutColIsValidAtWordToPractice(int wordId);
      Task DeleteLesson(int lessonId);

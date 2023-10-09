@@ -57,6 +57,11 @@ namespace BL
             await lessonDL.PostWordToLesson(WordGivenToPractice);
         }
 
+        public async Task SaveLesson(int LessonId)
+        {
+            await lessonDL.SaveLesson(LessonId);
+        }
+
         public async Task UpdateWordsForLesson(List<TblWordsGivenToPractice> wordsGivenToPractice)
         {
             await lessonDL.UpdateWordsForLesson(wordsGivenToPractice);

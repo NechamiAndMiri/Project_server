@@ -16,7 +16,7 @@ namespace DTO
         public int DifficultyLevelId { get; set; }
 
         public string LessonDescription { get; set; }
-        public int? WeightedScore { get; set; }
+        public double? WeightedScore { get; set; }
         public bool IsDone { get; set; }
         public string PronunciationProblemName { get;set;}
         public int DifficultyLevelName { get; set; }

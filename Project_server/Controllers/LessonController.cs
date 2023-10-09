@@ -107,13 +107,18 @@ namespace Project_server.Controllers
             await lessonBL.PostWordToLesson(WordGivenToPractice);
         }
 
+        [HttpPost("SaveLesson")]
+        public async Task SaveLesson([FromBody] int LessonId)
+        {
+            await lessonBL.SaveLesson(LessonId);
+        }
+
         static TblWordsGivenToPractice pratciceWord;
         [HttpPut]
         [Route("getWordToUpdate")]
         //public async Task UpdateRecording(int wordId)
         public void UpdateRecordingWord([FromBody] WordsGivenToPracticeDTO word)
         {
-
             pratciceWord = mapper.Map<WordsGivenToPracticeDTO, TblWordsGivenToPractice>(word);
         }
         [HttpPut]

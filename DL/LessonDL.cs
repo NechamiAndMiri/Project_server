@@ -47,6 +47,19 @@ namespace DL
             await generalDBContext.SaveChangesAsync();
         }
 
+        public async Task SaveLesson(int LessonId)
+        {
+
+            TblLesson lesson = await generalDBContext.TblLessons.FindAsync(LessonId);
+            if (lesson == null)
+            {
+                return;
+            }
+            lesson.IsDone = true;
+            generalDBContext.Entry(lesson).CurrentValues.SetValues(lesson);
+            await generalDBContext.SaveChangesAsync();
+        }
+
         public async Task PutLesson(TblLesson tblLesson)
         {
             TblLesson lesson = await generalDBContext.TblLessons.FindAsync(tblLesson.Id);
