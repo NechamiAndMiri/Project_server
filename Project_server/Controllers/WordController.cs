@@ -61,45 +61,21 @@ namespace Project_server.Controllers
         [HttpGet("{word_id}/{wordText}/getRecord")]
         public async Task<FileStreamResult> GetRecord(int word_id, string wordText)
         {
-            string recordName = wordText + "_record";
-          
-           // string localRecordPath;
-            // int fileSize;
-
             Task<string> t = wordBL.getLocalRecordPath(word_id);
+
             string filePath = t.Result;
-            //string filePath = Directory.GetCurrentDirectory() + @"\audio\Processed\" + recordingFile;
             var memory = new MemoryStream();
+
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 await stream.CopyToAsync(memory);
             }
+
             memory.Position = 0;
-            //var types = GetMimeTypes();
-            var ext = Path.GetExtension(filePath).ToLowerInvariant();
-            return File(memory, /*types[ext], recordingFile*/"audio/mpeg",true );
-            //get specified 
-            //if (String.IsNullOrEmpty(wordText))
-            //    return new HttpResponseMessage(HttpStatusCode.Unauthorized);
 
-            //string recordName = wordText+"_record";
-            //string localRecordPath;
-            //// int fileSize;
-
-            //Task<string> t = wordBL.getLocalRecordPath(word_id);
-            //localRecordPath = t.Result;
-
-            //// localFilePath = getFileFromID(id, out fileName, out fileSize);
-
-            //HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
-            //response.Content = new StreamContent(new FileStream(localRecordPath, FileMode.Open, FileAccess.Read));
-            //response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
-            //response.Content.Headers.ContentDisposition.FileName = recordName;
-            //response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("audio/mpeg");
-
-            //return response;
-
+            return File(memory,"audio/mpeg",true );
         }
+
 
         //למחוק!!!!!!!!!!!!!!!!!!!!!
         //public HttpResponseMessage GetFile(int word_id,string wordText)
@@ -151,25 +127,16 @@ namespace Project_server.Controllers
 
         [HttpPost]
         [Route("PostWordRecording")]
-        //public async Task UpdateRecording(int wordId)
-        public async Task PostWoredRecording()
+        public async Task PostWordRecording()
         {
-
             var file = Request.Form.Files[0];
-
-            //string filePath = Path.GetFullPath("recordings/words/" + file.FileName);
             string filePath = Path.Combine("recordings","words" , file.FileName);
-
             using (var stream = System.IO.File.Create(filePath))
             {
                 await file.CopyToAsync(stream);
             }
-
-      
             speechTherapistWord.WordRecording = filePath;
-        
-
-          // create
+            
             await wordBL.PostWord(speechTherapistWord);
         }
 
