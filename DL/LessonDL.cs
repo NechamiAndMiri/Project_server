@@ -105,9 +105,12 @@ namespace DL
         public async Task DeleteLesson(int lessonId)
         {
             TblLesson lesson = await generalDBContext.TblLessons.FindAsync(lessonId);
-            await DeleteAllWordsFromLesson(lessonId);
-            generalDBContext.TblLessons.Remove(lesson);
-            await generalDBContext.SaveChangesAsync();
+            if (lesson != null)
+            {
+                generalDBContext.TblWordsGivenToPractices.RemoveRange(generalDBContext.TblWordsGivenToPractices.Where(w => w.LessonId == lessonId));
+                generalDBContext.TblLessons.Remove(lesson);
+                await generalDBContext.SaveChangesAsync();
+            }
         }
 
         public async Task DeleteAllWordsFromLesson(int lessonId)
