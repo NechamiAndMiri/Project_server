@@ -38,7 +38,7 @@ namespace DL
 
         public async Task<TblDifficultyLevel> PostLevel(TblDifficultyLevel difficultyLevel)
         {
-            if (levelNameIsValid(difficultyLevel.DifficultyLevel,difficultyLevel.SpeechTherapistId).Result)
+            if (levelNameIsValid(difficultyLevel.DifficultyLevel,difficultyLevel.SpeechTherapistId,difficultyLevel.PronunciationProblemId).Result)
             {
                 TblDifficultyLevel d= (await generalDBContext.TblDifficultyLevels.AddAsync(difficultyLevel)).Entity;
                 await generalDBContext.SaveChangesAsync(); 
@@ -90,7 +90,7 @@ namespace DL
         {
             TblDifficultyLevel level = await generalDBContext.TblDifficultyLevels.FindAsync(id);
             var tmp = generalDBContext.Entry(level);
-            if(levelNameIsValid(levelName,level.SpeechTherapistId).Result)
+            if(levelNameIsValid(levelName,level.SpeechTherapistId,level.PronunciationProblemId).Result)
             {
              level.DifficultyLevel = levelName;
              tmp.CurrentValues.SetValues(level);
@@ -101,9 +101,11 @@ namespace DL
             return false;
         }  
 
-        public async Task<bool> levelNameIsValid(int levelName,int speechTherapistId)
+        public async Task<bool> levelNameIsValid(int levelName,int speechTherapistId, int pronunciationProblemId)
         {
-            var res = await generalDBContext.TblDifficultyLevels.Where(l => l.SpeechTherapistId == speechTherapistId && l.DifficultyLevel == levelName).ToListAsync();
+            var res = await generalDBContext.TblDifficultyLevels
+                .Where(l => l.SpeechTherapistId == speechTherapistId && l.DifficultyLevel == levelName && l.PronunciationProblemId == pronunciationProblemId)
+                .ToListAsync();
             if (res.Count == 0)
             {
                 return true;

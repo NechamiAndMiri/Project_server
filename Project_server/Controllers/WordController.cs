@@ -58,8 +58,8 @@ namespace Project_server.Controllers
             return await wordBL.GetAllWords(levelId);
         }
 
-        [HttpGet("{word_id}/{wordText}/getRecord")]
-        public async Task<FileStreamResult> GetRecord(int word_id, string wordText)
+        [HttpGet("{word_id}/getRecord")]
+        public async Task<FileStreamResult> GetRecord(int word_id)
         {
             Task<string> t = wordBL.getLocalRecordPath(word_id);
 
