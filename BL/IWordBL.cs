@@ -15,6 +15,7 @@ namespace BL
         public  Task DeleteLevel(int levelId);
         public  Task PostWord(TblWord word);
         public  Task<List<TblWord>> GetAllWords(int levelId);
+        public Task<TblWordsGivenToPractice> GetWordToPractice(int wordGivenToPracticeId);
         Task<string> getLocalRecordPath(int word_id);
     }
 }

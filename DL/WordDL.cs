@@ -36,6 +36,12 @@ namespace DL
             return await generalDBContext.TblWords.Where(w=>w.DifficultyLevelId==levelId).ToListAsync();
         }
 
+        public async Task<TblWordsGivenToPractice> GetWordToPractice(int wordGivenToPracticeId)
+        {
+            var a = await generalDBContext.TblWordsGivenToPractices.FindAsync(wordGivenToPracticeId);
+            return a;
+        }
+
         public async Task<TblDifficultyLevel> PostLevel(TblDifficultyLevel difficultyLevel)
         {
             if (levelNameIsValid(difficultyLevel.DifficultyLevel,difficultyLevel.SpeechTherapistId,difficultyLevel.PronunciationProblemId).Result)

@@ -58,6 +58,12 @@ namespace Project_server.Controllers
             return await wordBL.GetAllWords(levelId);
         }
 
+        [HttpGet("{wordGivenToPracticeId}/GetWordToPractice")]
+        public async Task<TblWordsGivenToPractice> GetWordToPractice(int wordGivenToPracticeId)
+        {
+            return await wordBL.GetWordToPractice(wordGivenToPracticeId);
+        }
+
         [HttpGet("{word_id}/getRecord")]
         public async Task<FileStreamResult> GetRecord(int word_id)
         {
@@ -75,32 +81,6 @@ namespace Project_server.Controllers
 
             return File(memory,"audio/mpeg",true );
         }
-
-
-        //למחוק!!!!!!!!!!!!!!!!!!!!!
-        //public HttpResponseMessage GetFile(int word_id,string wordText)
-        //{
-        //    if (String.IsNullOrEmpty(wordText))
-        //        return new HttpResponseMessage(HttpStatusCode.Unauthorized);
-
-        //    string recordName=wordText;
-        //    string localRecordPath;
-        //    // int fileSize;
-
-        //    Task<string> t = wordBL.getLocalRecordPath(word_id);
-        //    localRecordPath = t.Result;
-
-        //    // localFilePath = getFileFromID(id, out fileName, out fileSize);
-
-        //    HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
-        //    response.Content = new StreamContent(new FileStream(localRecordPath, FileMode.Open, FileAccess.Read));
-        //    response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
-        //    response.Content.Headers.ContentDisposition.FileName = recordName;
-        //    response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("audio/mpeg");
-
-        //    return response;
-        //}
-
 
         // POST api/<WordController>
         /// screens:

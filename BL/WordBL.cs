@@ -34,6 +34,11 @@ namespace BL
             return await wordDL.GetAllWords(levelId);
         }
 
+        public async Task<TblWordsGivenToPractice> GetWordToPractice(int wordGivenToPracticeId)
+        {
+            return await wordDL.GetWordToPractice(wordGivenToPracticeId);
+        }
+
         public async Task<TblDifficultyLevel> PostLevel(TblDifficultyLevel difficultyLevel)
         {
            return await wordDL.PostLevel(difficultyLevel);

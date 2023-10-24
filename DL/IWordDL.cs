@@ -9,6 +9,7 @@ namespace DL
         Task<List<TblPronunciationProblemsType>> GetAllPronunciationProblemsTypes();
         Task<List<TblDifficultyLevel>> GetAllLevels(int problemsTypeId, int speechTherapistId);
         Task<List<TblWord>> GetAllWords(int levelId);
+        Task<TblWordsGivenToPractice> GetWordToPractice(int wordGivenToPracticeId);
         Task<TblDifficultyLevel> PostLevel(TblDifficultyLevel difficultyLevel);
         Task PostWord(TblWord word);
         Task DeleteLevel(int levelId);
